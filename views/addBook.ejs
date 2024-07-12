@@ -1,0 +1,96 @@
+<%- include('partials/header.ejs') %>
+
+<div>
+    <form action="/updateReview">
+
+        <div>
+            <input type="hidden" name="cover_id" value="<%= locals.cover %>">
+            <input type="hidden" name="title" value="<%= locals.title %>">
+            <input type="hidden" name="bookId" value="<%= locals.book_id %>">
+            <input type="hidden" name="author" value="<%= locals.author %>">
+        
+            <% if(locals.cover.length == 0){ %>
+                <div>
+                    <h2><%= locals.title %></h2>
+                    <h3><%= locals.author %></h3>
+                </div>
+
+            <% } else { %>
+                <img src="//covers.openlibrary.org/b/id/<%= locals.cover %>-M.jpg"
+                srcset="//covers.openlibrary.org/b/id/<%= locals.cover %>-M.jpg 2x" alt="Book cover">
+            <% } %>
+
+        </div>
+
+        <div>
+            <h2><%= locals.title %></h2>
+            <h3><%= locals.author %></h3>
+
+            <% if (locals.review) { %>
+                <h3>Edit Review</h3>
+                <textarea name="review_text" id="review_text" cols="30" rows="10" required><%= review %></textarea>
+            <% } else { %>
+                <h3>Write review</h3>
+                <textarea name="review_text" id="review_text" cols="30" rows="10" required></textarea>
+            <% } %>
+
+            <% if (locals.highlights) { %>
+                <h3>Edit Highlights</h3>
+                <textarea name="highlight_text" id="highlight_text" cols="30" rows="10" required><%= review %></textarea>
+            <% } else { %>
+                <h3>Write Highlights</h3>
+                <textarea name="highlight_text" id="highlight_text" cols="30" rows="10" required></textarea>
+            <% } %>
+
+            <% if (locals.summary) { %>
+                <h3>Edit Summary</h3>
+                <textarea name="summary_text" id="summary_text" cols="30" rows="10" required><%= review %></textarea>
+            <% } else { %>
+                <h3>Write Highlights</h3>
+                <textarea name="summary_text" id="summary_text" cols="30" rows="10" required></textarea>
+            <% } %>
+
+        </div>
+
+        <div>
+            <h3>Rating</h3>
+            <div>
+                <input id="1" type="radio" name="rating" value="1" required>
+                <label for="1">
+                    <span class="fa fa-star"></span>
+                </label>
+
+                <input id="2" type="radio" name="rating" value="2">
+                <label for="2">
+                    <span class="fa fa-star"></span>
+                </label>
+
+                <input id="3" type="radio" name="rating" value="3">
+                <label for="3">
+                    <span class="fa fa-star"></span>
+                </label>
+
+                <input id="4" type="radio" name="rating" value="4">
+                <label for="4">
+                    <span class="fa fa-star"></span>
+                </label>
+
+                <input id="5" type="radio" name="rating" value="5">
+                <label for="5">
+                    <span class="fa fa-star"></span>
+                </label>
+            </div>
+        </div>
+
+        <div>
+            <div class="button edit">
+                <% if(locals.review) {%>
+                    <input onclick="validateForm()" type="submit" value="Update" formmethod="post" formaction="/updateReview">
+                <% } else { %>
+                    <input onclick="validateForm()" type="submit" value="Add review" formmethod="post" formaction="/addBook">
+                <% } %>
+            </div>
+        </div>
+
+    </form>
+</div>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adelya's Shelves</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/styles/output.css">
+</head>
+
+<body class="font-inter">
+
+    <header class="fixed top-0 left-0 w-full z-10 flex justify-end items-center py-4 px-8 shadow-md">
+
+        <style>
+            .search-form-bg::before {
+              content: '';
+              position: absolute;
+              inset: 0;
+              background-color: rgba(255, 255, 255, 0.5); 
+              border-radius: 9999px; 
+              z-index: -1;
+            }
+          </style>
+          
+          <form action="/search" method="get" class="relative flex items-center rounded-full px-4 py-2 space-x-2 w-2/4 search-form-bg">
+              <input type="text" name="search" id="searchInput" autocomplete="off" placeholder="Has she ever read.. (title, author, or ISBN)" class="bg-transparent focus:outline-none placeholder-stone-800 text-black w-full">
+              
+              <div class="dropdown">
+                <ul id="dropdownList"></ul>
+            </div>
+
+              <button type="submit" class="focus:outline-none">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-stone-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+              </button>
+          </form>
+
+    </header>
+    
+
+    
