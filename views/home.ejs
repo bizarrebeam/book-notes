@@ -14,7 +14,9 @@
             <div>
 
                 <div class="pb-5">
-                    <h1 class="font-bold text-4xl text-[#463F3A] pb-2">bizarrebeam's corner</h1>
+                    <h1 class="font-bold text-4xl text-[#463F3A] pb-2">
+                        <a href="/about" class="hover:text-[#8A817C] transition ease-in-out">bizarrebeam</a>'s corner
+                      </h1>
                     <p class="text-justify">
                         A tiny corner of my reading journal. Would you want to read it too? I give my own summaries, highlight parts from the book, and link them to <a href="https://openlibrary.org/" class="font-bold text-[#8A817C] hover:text-[#2e2b29] underline">OpenLibrary</a> if you want to read more descriptions of the book. This page will continuously update as I read more. Flip it, let's go!
                     </p>
@@ -32,46 +34,40 @@
             <!-- books card -->
             <div class="mt-5">
 
-                <!-- first card -->
-                <div class="bg-[#F4F1EA] rounded-2xl p-5 w-full mb-5">
-                    <div class="flex">
-                        
+                <% books.forEach(book => { %>
+                    <div class="bg-[#F4F1EA] rounded-2xl p-5 w-full mb-5">
+                      <div class="flex">
                         <!-- book cover -->
                         <div class="flex-none">
-                            <img src="/assets/book-1.jpg" alt="Book Cover" class="w-32 h-auto rounded-lg">
+                          <img src="<%= book.coverUrl %>" alt="Book Cover" class="w-32 h-auto rounded-lg">
                         </div>
-
                         <!-- content section -->
                         <div class="ml-4 flex-grow">
-
-                            <!-- title -->
-                            <h2 class="text-2xl font-bold text-black">A Tale for the Time Being</h2>
-                            
-                            <!-- author -->
-                            <p class="text-lg font-bold text-[#8A817C]">Ruth Ozeki</p>
-
-                            <!-- finished date -->
-                            <p class="text-base text-[#8A817C] text-right mt-1">Finished at June 2024</p>
-
-                            <!-- reviews -->
-                            <div class="mt-3 sm:mt-0 text-black">
-                                <p class="line-clamp-4 text-justify">
-                                    A story that alternates between a Japanese schoolgirl, Nao, and a Canadian author, Ruth. Ruth finds Nao's diary washed up on the shore where she lives and presumes the 2011 Tōhoku tsunami is what brought the diary to her. The story unfolds with Ruth becoming absorbed, page by page, in finding out what ultimately happened to Nao, as Nao pours out her difficult life through the diary. What initially intrigued me was whether the tsunami really connected Nao's life to Ruth through the diary. However, I found myself not in a hurry to uncover the truth. Instead, I paced slowly with Nao's tale. It's heartbreaking as Nao shares her life spanning three generations: her suicidal father, her Buddhist nun great-grandmother, and her deceased kamikaze grand-uncle. She recounts the bullying and harassment she endures every day in a teen's language, as if it were normal reality to her. The opening of the book was, "Hi! My name is Nao, and I am a time being." From that point on, I positioned myself as Ruth, slowly uncovering the pages without haste, and allowing myself to be a time being—whether present or past—connected with Nao's time.
-                                </p>
-                                <a href="/review" class="text-[#E0AFA0] hover:text-[#8A817C]">...peek more</a>
-                            </div>
-
-                            
+                          <!-- title -->
+                          <h2 class="text-2xl font-bold text-black"><%= book.title %></h2>
+                          <!-- author -->
+                          <p class="text-lg font-bold text-[#8A817C]"><%= book.author %></p>
+                          <!-- finished date -->
+                          <p class="text-base text-[#8A817C] text-right mt-1">Finished at <%= book.finished_month_year %></p>
+                          <!-- reviews -->
+                          <div class="mt-3 sm:mt-0 text-black">
+                            <p class="line-clamp-4 text-justify">
+                              <%= book.summary_text %>
+                            </p>
+                            <a href="/review" class="text-[#E0AFA0] hover:text-[#8A817C]">...peek more</a>
+                          </div>
                         </div>
-                        
-                    </div>
-
-                    <div class="mt-2 flex flex-grow-0 justify-end items-start sm:space-x-4 sm:mt-4 sm:items-center">
-                        <a href="#" class="bg-[#9F9F92] hover:bg-[#463F3A] text-white font-bold py-2 px-4 rounded-full transition duration-150 mr-2">More on OpenLibrary</a>
-                        <a href="/review" class="w-40 bg-[#463F3A] hover:bg-[#9F9F92] text-white font-bold py-2 px-4 rounded-full transition duration-150">Read my notes</a>
-                    </div>
+                      </div>
+                      <div class="mt-2 flex flex-grow-0 justify-end items-start sm:space-x-4 sm:mt-4 sm:items-center">
+                        <a href="https://openlibrary.org/isbn/<%= book.isbn %>" target="_blank" rel="noopener noreferrer" class="bg-[#9F9F92] hover:bg-[#463F3A] text-white font-bold py-2 px-4 rounded-full transition duration-150 mr-2">
+                            More on OpenLibrary
+                        </a>
                     
-                </div>
+                        <a href="/review" class="w-40 bg-[#463F3A] hover:bg-[#9F9F92] text-white font-bold py-2 px-4 rounded-full transition duration-150">Read my notes</a>
+                      </div>
+                    </div>
+                  <% }) %>
+                  
 
             </div>
 

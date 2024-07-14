@@ -1,0 +1,90 @@
+<%- include('partials/header.ejs') %>
+
+<!-- back button -->
+<a href="/" class="absolute top-7 left-7 bg-[#F4F1EA] rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:bg-gray-200 active:bg-gray-300 transition cursor-pointer z-30">
+    <i class="fa fa-arrow-left text-xl text-black"></i>
+</a>
+
+<!-- Form starts here -->
+<form action="/compose" method="POST" class="flex flex-col p-24 pt-10">
+    <h1 class="font-bold text-3xl">compose</h1>
+    
+    <!-- Book Title and Author Name Labels Row -->
+    <div class="flex flex-col sm:flex-row justify-between mt-8">
+        <label for="title" class="flex-1 text-black text-base ml-3">book title</label>
+        <label for="author" class="flex-1 text-black text-base ml-3">author name</label>
+    </div>
+    
+    <!-- Book Title and Author Name Inputs Row -->
+    <div class="flex flex-col sm:flex-row justify-between mt-2">
+        <input type="text" id="title" name="title" class="flex-1 mx-1 px-4 py-2 bg-[#F4F1EA] rounded-full outline-none">
+        <input type="text" id="author" name="author" class="flex-1 mx-1 px-4 py-2 bg-[#F4F1EA] rounded-full outline-none">
+    </div>
+    
+    <!-- Book ISBN, Language, and Finished At Labels Row -->
+    <div class="flex flex-col sm:flex-row justify-between mt-8">
+        <label for="isbn" class="flex-1 text-black text-base ml-3">book ISBN</label>
+        <label for="language" class="flex-1 text-black text-base ml-3">book language</label>
+        <label for="finished-at" class="flex-1 text-black text-base ml-3">finished at</label>
+    </div>
+    
+    <!-- Book ISBN, Language, and Finished At Inputs Row -->
+    <div class="flex flex-col sm:flex-row justify-between mt-2">
+        <input type="text" id="isbn" name="isbn" class="flex-1 mx-1 px-4 py-2 bg-[#F4F1EA] rounded-full outline-none">
+        <input type="text" id="language" name="language" class="flex-1 mx-1 px-4 py-2 bg-[#F4F1EA] rounded-full outline-none">
+        <input type="text" id="finished-at" name="finished_at" class="flex-1 mx-1 px-4 py-2 bg-[#F4F1EA] rounded-full outline-none">
+    </div>
+    
+    <!-- Summarize It Label -->
+    <div class="flex justify-between mt-4">
+        <label for="summarize" class="flex-1 text-black text-base ml-3">summarize it</label>
+    </div>
+    
+    <!-- Summarize It Textarea -->
+    <div class="flex mt-2">
+        <textarea id="summarize" name="summarize" rows="10" class="flex-1 mx-1 px-4 py-2 bg-[#F4F1EA] rounded-2xl outline-none resize-none" style="min-height: 100px;"></textarea>
+    </div>
+    
+    <!-- Highlight inputs -->
+    <div class="flex flex-col mt-6 w-full" id="highlight-container">
+        <!-- highlights label -->
+        <label for="highlight-0" class="text-black text-base ml-3">highlight 1</label>
+        <!-- highlights input -->
+        <input type="text" id="highlight-0" name="highlights[]" class="w-full bg-[#F4F1EA] rounded-2xl p-2 text-black outline-none mt-2">
+    </div>
+    
+    <!-- Add Highlight Button -->
+    <button type="button" onclick="addHighlightInput()" class="mt-4 bg-[#9F9F92] text-white font-bold py-2 px-4 rounded-full hover:bg-[#463F3A] transition duration-150 w-40">
+        Add Highlight
+    </button>
+    
+    <!-- Submit Button -->
+    <button type="submit" class="mt-6 bg-[#9F9F92] text-white font-bold py-2 px-4 rounded-full hover:bg-[#463F3A] transition duration-150 w-40">
+        Compose
+    </button>
+</form>
+
+<!-- functionality for adding more than one highlight -->
+<script>
+    let highlightCount = 1;
+
+    function addHighlightInput() {
+        const highlightContainer = document.getElementById('highlight-container');
+        const newLabel = document.createElement('label');
+        newLabel.textContent = `Highlight ${highlightCount + 1}`;
+        newLabel.classList.add('text-black', 'text-base', 'ml-3', 'mt-4');
+
+        const newInput = document.createElement('input');
+        newInput.type = 'text';
+        newInput.name = 'highlights[]';
+        newInput.id = `highlight-${highlightCount}`;
+        newInput.classList.add('w-full', 'bg-[#F4F1EA]', 'rounded-2xl', 'p-2', 'text-black', 'outline-none', 'mt-2');
+
+        highlightContainer.appendChild(newLabel);
+        highlightContainer.appendChild(newInput);
+
+        highlightCount++;
+    }
+</script>
+
+</body>

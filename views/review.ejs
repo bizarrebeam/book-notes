@@ -12,12 +12,12 @@
     </a>
 
    <!-- Left content -->
-    <div class="fixed top-0 left-0 sm:h-screen h-3/4 sm:w-96 w-full z-10 flex flex-col bg-transparent justify-center items-center">
+    <div class="fixed top-0 left-0 sm:h-screen h-1/2 sm:w-96 w-full z-10 flex flex-col bg-transparent justify-center items-center">
 
         <div class="flex flex-col flex-grow justify-center sm:ju items-center sm:w-64">
 
             <div class="flex-none">
-                <img src="/assets/book-1.jpg" alt="Book Cover" class="rounded-lg book-cover sm:w-52 w-44">
+                <img src="/assets/book-1.jpg" alt="Book Cover" class="rounded-lg book-cover sm:w-52 w-36">
             </div>
             
             <!-- book name -->
@@ -29,14 +29,70 @@
         </div>
     </div>
 
-    
-        
-    
+    <!-- right content white container -->
+    <div class="fixed sm:top-0 bottom-0 right-0 sm:h-screen h-1/2 sm:w-[calc(100%-24rem)] w-full z-20 bg-white rounded-tl-3xl sm:rounded-l-3xl overflow-y-auto p-10">
 
+        <!-- all content -->
+        <div class="max-w-4xl mx-auto flex flex-col">
 
-    
+            <!-- books identity: i have to mimic the parent so i could justify end it idk why -->
+            <div class="max-w-4xl flex justify-end">
 
+                <div class="flex flex-row justify-end w-52 mt-4">
+                    <!-- label identity -->
+                    <div class="flex-1 text-sm text-[#747474] justify-end">
+                        <p class="mb-1">ISBN</p>
+                        <p class="mb-1">Language</p>
+                        <p class="mb-1">Finished at</p>
+                    </div>
+                    <!-- value identity -->
+                    <div class="flex-1 text-sm font-bold justify-end">
+                        <p class="mb-1">7878787878787</p>
+                        <p class="mb-1">English</p>
+                        <p class="mb-1">June 2024</p>
+                    </div>
+                </div>
 
+            </div>
 
+            <!-- review section -->
+            <div class="">
+            
+                <h1 class="font-bold text-3xl mt-6">how i would summarize it</h1>
+
+                <!-- review paragraph -->
+                <p class="text-justify mt-2">
+                    Norem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. 
+                </p>
+
+                <!-- link to openlibrary -->
+                <div class="flex flex-row justify-end mt-4">
+                    <a href="#" class="bg-[#463F3A] hover:bg-[#9F9F92] text-white font-bold py-2 px-4 rounded-full transition duration-150 mr-2">More on OpenLibrary</a>
+                </div>
+
+            </div>
+
+            <!-- highlight card section -->
+            <div class="mt-7">
+                <h1 class="font-bold text-3xl">highlights</h1>
+
+                <div class="mt-5">
+
+                    <!-- first card -->
+                    <div class="bg-[#F4F1EA] rounded-2xl pt-2 p-4 w-full mb-5">
+
+                        <img src="/assets/quote.png" alt="quote-image" class="w-14">
+                        <p class="text-justify">Norem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla.</p>
+
+                    </div>
+
+                </div>
+            </div>
+
+            
+
+        </div>
+
+    </div>
 
 </body>
