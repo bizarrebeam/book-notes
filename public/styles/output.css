@@ -712,6 +712,10 @@ video {
   margin-top: 2rem;
 }
 
+.mr-1{
+  margin-right: 0.25rem;
+}
+
 .line-clamp-4{
   overflow: hidden;
   display: -webkit-box;
@@ -815,6 +819,10 @@ video {
   flex-direction: column;
 }
 
+.flex-wrap{
+  flex-wrap: wrap;
+}
+
 .items-start{
   align-items: flex-start;
 }
@@ -833,6 +841,12 @@ video {
 
 .justify-between{
   justify-content: space-between;
+}
+
+.space-x-4 > :not([hidden]) ~ :not([hidden]){
+  --tw-space-x-reverse: 0;
+  margin-right: calc(1rem * var(--tw-space-x-reverse));
+  margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
 .overflow-hidden{
@@ -963,6 +977,10 @@ video {
 
 .pt-20{
   padding-top: 5rem;
+}
+
+.pr-4{
+  padding-right: 1rem;
 }
 
 .text-center{
@@ -1143,6 +1161,14 @@ video {
     height: 100vh;
   }
 
+  .sm\:h-32{
+    height: 8rem;
+  }
+
+  .sm\:h-auto{
+    height: auto;
+  }
+
   .sm\:w-52{
     width: 13rem;
   }
@@ -1157,6 +1183,10 @@ video {
 
   .sm\:w-\[calc\(100\%-24rem\)\]{
     width: calc(100% - 24rem);
+  }
+
+  .sm\:w-auto{
+    width: auto;
   }
 
   .sm\:flex-row{
@@ -1176,6 +1206,11 @@ video {
   .sm\:rounded-l-3xl{
     border-top-left-radius: 1.5rem;
     border-bottom-left-radius: 1.5rem;
+  }
+
+  .sm\:rounded-t-\[50px\]{
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
   }
 
   .sm\:py-2{

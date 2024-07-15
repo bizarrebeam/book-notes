@@ -8,9 +8,9 @@
   <div class="relative bg-white rounded-t-[50px] w-full flex-1" style="top: 100px;">
 
     <!-- all web content -->
-    <div class="flex flex-1">
+    <div class="flex flex-1 pt-20 p-8 md:mt-[-20px] md:pt-20 md:p-16 lg:mt-[-40px] lg:pt-28 lg:p-24 xl:mt-[-60px] xl:pt-36 xl:p-32">
 
-      <div class="pt-20 p-8 md:mt-[-20px] md:pt-20 md:p-16 lg:mt-[-40px] lg:pt-28 lg:p-24 xl:mt-[-60px] xl:pt-36 xl:p-32">
+      <div class="">
 
         <!-- starting content -->
         <div>
@@ -79,8 +79,8 @@
 
               </div>
 
-              <div class="mt-2 flex flex-grow-0 justify-end items-start sm:space-x-4 sm:mt-4 sm:items-center">
-                <a href="https://openlibrary.org/isbn/<%= book.isbn %>" class="bg-[#9F9F92] hover:bg-[#463F3A] text-white font-bold py-2 px-4 rounded-full transition duration-150 mr-2">More on OpenLibrary</a>
+              <div class=" flex flex-grow-0 justify-end space-x-4 mt-4 items-center">
+                <a href="https://openlibrary.org/isbn/<%= book.isbn %>" class="bg-[#9F9F92] hover:bg-[#463F3A] text-white font-bold py-2 px-4 rounded-full transition duration-150 mr-1">OpenLibrary</a>
                 <a href="/review/<%= book.book_id %>" class="w-40 bg-[#463F3A] hover:bg-[#9F9F92] text-white font-bold py-2 px-4 rounded-full transition duration-150">Read my notes</a>
               </div>
 
