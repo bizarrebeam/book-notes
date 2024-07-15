@@ -12,12 +12,12 @@
     </a>
 
    <!-- Left content -->
-    <div class="fixed top-0 left-0 sm:h-screen h-1/2 sm:w-96 w-full z-10 flex flex-col bg-transparent justify-center items-center">
+    <div class="fixed top-0 left-0 sm:h-screen h-2/5 sm:w-96 w-full z-10 flex flex-col bg-transparent justify-center items-center">
 
         <div class="flex flex-col flex-grow justify-center sm:ju items-center sm:w-64">
 
             <div class="flex-none">
-                <img src="<%= book.cover_url %>" alt="Book Cover" class="rounded-lg book-cover sm:w-52 w-36">
+                <img src="<%= book.cover_url %>" alt="Book Cover" class="rounded-lg book-cover sm:w-52 w-32 mt-3">
             </div>
             
             <!-- Book name -->
@@ -31,7 +31,7 @@
     </div>
 
     <!-- right content white container -->
-    <div class="fixed sm:top-0 bottom-0 right-0 sm:h-screen h-1/2 sm:w-[calc(100%-24rem)] w-full z-20 bg-white rounded-tl-3xl sm:rounded-l-3xl overflow-y-auto p-10">
+    <div class="fixed sm:top-0 bottom-0 right-0 sm:h-screen h-3/5 sm:w-[calc(100%-24rem)] w-full z-20 bg-white rounded-tl-3xl sm:rounded-l-3xl overflow-y-auto sm:p-10 p-8">
 
         <!-- all content -->
         <div class="max-w-4xl mx-auto flex flex-col">
@@ -39,15 +39,15 @@
             <!-- books identity: i have to mimic the parent so i could justify end it idk why -->
             <div class="max-w-4xl flex justify-end">
 
-                <div class="flex flex-row justify-end w-52 mt-4">
+                <div class="flex flex-row justify-end w-52 sm:mt-4 mt-1">
                     <!-- label identity -->
-                    <div class="flex-1 text-sm text-[#747474] justify-end">
+                    <div class="flex-1 sm:text-sm text-xxs text-[#747474] justify-end">
                         <p class="mb-1">ISBN</p>
                         <p class="mb-1">Language</p>
                         <p class="mb-1">Finished at</p>
                     </div>
                     <!-- value identity -->
-                    <div class="flex-1 text-sm font-bold justify-end">
+                    <div class="flex-1 sm:text-sm text-xxs font-bold justify-end">
                         <p class="mb-1"><%= book.isbn %></p>
                         <p class="mb-1"><%= book.language %></p>
                         <p class="mb-1"><%= book.finished_month_year %></p>
@@ -59,28 +59,28 @@
             <!-- review section -->
             <div class="">
             
-                <h1 class="font-bold text-3xl mt-6">how i would summarize it</h1>
+                <h1 class="font-bold sm:text-4xl text-3xl mt-6">how i would summarize it</h1>
 
                 <!-- review paragraph -->
-                <p class="text-justify mt-2 sm:text-base text-sm">
+                <p class="text-justify mt-2 sm:text-base text-xs">
                     <%= book.summary_text %>
                 </p>
 
                 <!-- link to openlibrary -->
                 <div class="flex flex-row justify-end mt-4">
-                    <a href="https://openlibrary.org/isbn/<%= book.isbn %>" class="bg-[#463F3A] hover:bg-[#9F9F92] text-white font-bold py-2 px-4 rounded-full transition duration-150 mr-2">More on OpenLibrary</a>
+                    <a href="https://openlibrary.org/isbn/<%= book.isbn %>" class="flex items-center justify-center bg-[#463F3A] hover:bg-[#9F9F92] text-white font-bold sm:py-2 sm:px-4 px-2 h-7 sm:h-10 sm:text-base text-xs rounded-full transition duration-150 leading-none">More on OpenLibrary</a>
                 </div>
 
             </div>
 
             <!-- highlight card section -->
             <div class="mt-7">
-                <h1 class="font-bold text-3xl">highlights</h1>
+                <h1 class="font-bold sm:text-4xl text-3xl">highlights</h1>
                 <div class="mt-5">
                     <% book.highlight_text.forEach(highlight => { %>
                         <div class="bg-[#F4F1EA] rounded-2xl pt-2 p-4 w-full mb-5">
-                            <img src="/assets/quote.png" alt="quote-image" class="w-14">
-                            <p class="text-justify sm:text-base text-sm"><%= highlight %></p>
+                            <img src="/assets/quote.png" alt="quote-image" class="sm:w-14 w-10">
+                            <p class="text-justify sm:text-base text-xs"><%= highlight %></p>
                         </div>
                     <% }) %>
                 </div>
