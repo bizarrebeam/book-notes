@@ -18,20 +18,30 @@ db.connect();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-/// retrieve books from database and their covers
-async function getBooks() {
+// retrieve books from the database, according to the sorting option
+async function getBooks(sortBy) {
+  let orderBy = "";
+  if (sortBy === "title") {
+    orderBy = "ORDER BY books.title";
+  } else if (sortBy === "recently-read") {
+    orderBy = "ORDER BY TO_DATE(books.finished_month_year, 'Month YYYY') DESC";
+  }
+
   const booksQuery = `
     SELECT books.book_id, books.title, books.author, books.isbn, books.language, books.finished_month_year, books.cover_url, book_reviews.summary_text
     FROM books
-    JOIN book_reviews ON books.book_id = book_reviews.book_id;
+    JOIN book_reviews ON books.book_id = book_reviews.book_id
+    ${orderBy};
   `;
   const result = await db.query(booksQuery);
+
   return result.rows;
 }
 
 app.get("/", async (req, res) => {
   try {
-    const books = await getBooks();
+    const sortBy = req.query.sort;
+    const books = await getBooks(sortBy);
     res.render("home.ejs", { books: books });
   } catch (err) {
     console.error("Error fetching data for home page", err);
