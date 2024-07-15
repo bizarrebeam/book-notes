@@ -3,7 +3,7 @@
     
     <!-- background image -->
     <div class="h-screen fixed inset-0 overflow-hidden z-0">
-        <img src="/assets/book-1.jpg" alt="Book Cover Background" class="h-full background-blur">
+        <img src="<%= book.cover_url %>" alt="Book Cover Background" class="h-full background-blur">
     </div>
 
     <!-- back button -->
@@ -17,14 +17,14 @@
         <div class="flex flex-col flex-grow justify-center sm:ju items-center sm:w-64">
 
             <div class="flex-none">
-                <img src="/assets/book-1.jpg" alt="Book Cover" class="rounded-lg book-cover sm:w-52 w-36">
+                <img src="<%= book.cover_url %>" alt="Book Cover" class="rounded-lg book-cover sm:w-52 w-36">
             </div>
             
             <!-- book name -->
-            <h2 class="sm:text-xl text-base font-bold text-white mt-3">A Tale for the Time Being</h2>
+            <h2 class="sm:text-xl text-base font-bold text-white mt-3 text-center"><%= book.title %></h2>
                             
             <!-- author -->
-            <p class="sm:text-base text-sm text-white">Ruth Ozeki</p>
+            <p class="sm:text-base text-sm text-white text-center"><%= book.author %></p>
     
         </div>
     </div>
@@ -47,9 +47,9 @@
                     </div>
                     <!-- value identity -->
                     <div class="flex-1 text-sm font-bold justify-end">
-                        <p class="mb-1">7878787878787</p>
-                        <p class="mb-1">English</p>
-                        <p class="mb-1">June 2024</p>
+                        <p class="mb-1"><%= book.isbn %></p>
+                        <p class="mb-1"><%= book.language %></p>
+                        <p class="mb-1"><%= book.finished_month_year %></p>
                     </div>
                 </div>
 
@@ -61,13 +61,13 @@
                 <h1 class="font-bold text-3xl mt-6">how i would summarize it</h1>
 
                 <!-- review paragraph -->
-                <p class="text-justify mt-2">
-                    Norem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. 
+                <p class="text-justify mt-2 sm:text-base text-sm">
+                    <%= book.summary_text %>
                 </p>
 
                 <!-- link to openlibrary -->
                 <div class="flex flex-row justify-end mt-4">
-                    <a href="#" class="bg-[#463F3A] hover:bg-[#9F9F92] text-white font-bold py-2 px-4 rounded-full transition duration-150 mr-2">More on OpenLibrary</a>
+                    <a href="https://openlibrary.org/isbn/<%= book.isbn %>" class="bg-[#463F3A] hover:bg-[#9F9F92] text-white font-bold py-2 px-4 rounded-full transition duration-150 mr-2">More on OpenLibrary</a>
                 </div>
 
             </div>
@@ -75,21 +75,15 @@
             <!-- highlight card section -->
             <div class="mt-7">
                 <h1 class="font-bold text-3xl">highlights</h1>
-
                 <div class="mt-5">
-
-                    <!-- first card -->
-                    <div class="bg-[#F4F1EA] rounded-2xl pt-2 p-4 w-full mb-5">
-
-                        <img src="/assets/quote.png" alt="quote-image" class="w-14">
-                        <p class="text-justify">Norem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla.</p>
-
-                    </div>
-
+                    <% book.highlight_text.forEach(highlight => { %>
+                        <div class="bg-[#F4F1EA] rounded-2xl pt-2 p-4 w-full mb-5">
+                            <img src="/assets/quote.png" alt="quote-image" class="w-14">
+                            <p class="text-justify sm:text-base text-sm"><%= highlight %></p>
+                        </div>
+                    <% }) %>
                 </div>
             </div>
-
-            
 
         </div>
 

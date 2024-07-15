@@ -18,45 +18,49 @@ db.connect();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-// Function to fetch books and their covers
-async function getBooksAndCovers() {
+/// retrieve books from database and their covers
+async function getBooks() {
   const booksQuery = `
-    SELECT books.title, books.author, books.isbn, books.language, books.finished_month_year, book_reviews.summary_text
+    SELECT books.book_id, books.title, books.author, books.isbn, books.language, books.finished_month_year, books.cover_url, book_reviews.summary_text
     FROM books
     JOIN book_reviews ON books.book_id = book_reviews.book_id;
   `;
-  const booksResult = await db.query(booksQuery);
-  const books = booksResult.rows;
-
-  // Fetch book covers from the Open Library API
-  const booksWithCovers = await Promise.all(books.map(async (book) => {
-    const coverUrl = `https://covers.openlibrary.org/b/isbn/${book.isbn}-L.jpg`;
-    try {
-      // Try fetching the cover to ensure it exists
-      await axios.get(coverUrl);
-      book.coverUrl = coverUrl;
-    } catch (error) {
-      // If the cover does not exist, use a default image
-      book.coverUrl = "/assets/default.png";
-    }
-    return book;
-  }));
-
-  return booksWithCovers;
+  const result = await db.query(booksQuery);
+  return result.rows;
 }
 
 app.get("/", async (req, res) => {
   try {
-    const booksWithCovers = await getBooksAndCovers();
-    res.render("home.ejs", { books: booksWithCovers });
+    const books = await getBooks();
+    res.render("home.ejs", { books: books });
   } catch (err) {
     console.error("Error fetching data for home page", err);
     res.status(500).send("Internal Server Error");
   }
 });
 
-app.get("/review", (req, res) => { 
-  res.render("review.ejs");
+app.get("/review/:book_id", async (req, res) => {
+  const bookId = req.params.book_id;
+
+  try {
+    const bookQuery = `
+      SELECT books.title, books.author, books.isbn, books.language, books.finished_month_year, books.cover_url, book_reviews.summary_text, book_reviews.highlight_text
+      FROM books
+      JOIN book_reviews ON books.book_id = book_reviews.book_id
+      WHERE books.book_id = $1;
+    `;
+    const bookResult = await db.query(bookQuery, [bookId]);
+
+    if (bookResult.rows.length > 0) {
+      const book = bookResult.rows[0];
+      res.render("review.ejs", { book: book });
+    } else {
+      res.status(404).send("Book not found");
+    }
+  } catch (err) {
+    console.error("Error fetching data for review page", err);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 app.get("/about", (req, res) => { 
@@ -72,13 +76,21 @@ app.post("/compose", async (req, res) => {
   try {
     const { title, author, isbn, language, finished_at, summarize, highlights } = req.body;
 
+    // fetch cover url
+    let coverUrl = `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`;
+    try {
+      await axios.get(coverUrl);
+    } catch (err) {
+      coverUrl = "/assets/default.png";
+    }
+
     const bookQuery = `
-      INSERT INTO books (title, author, isbn, language, finished_month_year)
-      VALUES ($1, $2, $3, $4, $5)
+      INSERT INTO books (title, author, isbn, language, finished_month_year, cover_url)
+      VALUES ($1, $2, $3, $4, $5, $6)
       ON CONFLICT (isbn) DO NOTHING
       RETURNING book_id;
     `;
-    const bookResult = await db.query(bookQuery, [title, author, isbn, language, finished_at]);
+    const bookResult = await db.query(bookQuery, [title, author, isbn, language, finished_at, coverUrl]);
 
     let bookId;
     if (bookResult.rows.length > 0) {

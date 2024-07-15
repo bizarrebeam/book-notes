@@ -14,6 +14,9 @@ CREATE TABLE book_reviews (
     highlight_text TEXT[], 
 );
 
+-- to make the load faster, i decide to store the cover image in the database
+ALTER TABLE books ADD COLUMN cover_url VARCHAR(255);
+
 -- populate first entry
 INSERT INTO books (title, author, isbn, language, finished_month_year)
 VALUES ('A Tale for the Time Being', 'Ruth Ozeki', '9780143124870', 'English', 'June 2024');
@@ -29,3 +32,5 @@ VALUES
     'As I have not much time left in life, I am determined not to be a coward. I will live as earnestly as I can and feel my feelings deeply. I will rigorously reflect upon my thoughts and emotions, and try to improve myself as much as I can.'
  ]
 );
+
+

@@ -2,80 +2,100 @@
 
 <div class="relative w-full min-h-screen flex flex-col">
 
-  <img src="/assets/background.jpg" class="absolute top-0 right-0 w-full h-full object-cover" alt="Background Image">
+  <img src="/assets/background.jpg" class="absolute inset-0 w-full h-full object-cover" alt="Background Image">
+
 
   <div class="relative bg-white rounded-t-[50px] w-full flex-1" style="top: 100px;">
 
     <!-- all web content -->
     <div class="flex flex-1">
-        <div class="pt-20 p-8 md:mt-[-20px] md:pt-20 md:p-16 lg:mt-[-40px] lg:pt-28 lg:p-24 xl:mt-[-60px] xl:pt-36 xl:p-32">
-            
-            <!-- starting content -->
-            <div>
 
-                <div class="pb-5">
-                    <h1 class="font-bold text-4xl text-[#463F3A] pb-2">
-                        <a href="/about" class="hover:text-[#8A817C] transition ease-in-out">bizarrebeam</a>'s corner
-                      </h1>
-                    <p class="text-justify">
-                        A tiny corner of my reading journal. Would you want to read it too? I give my own summaries, highlight parts from the book, and link them to <a href="https://openlibrary.org/" class="font-bold text-[#8A817C] hover:text-[#2e2b29] underline">OpenLibrary</a> if you want to read more descriptions of the book. This page will continuously update as I read more. Flip it, let's go!
-                    </p>
-                </div>
-                <div>
-                    <p class="font-bold text-[#463F3A] pb-1">Sort by</p>
-                    <div class="flex">
-                        <button id="title" class="bg-[#9F9F92] text-white font-bold py-2 px-4 rounded-full hover:bg-[#463F3A] transition ease-in-out mr-3"> Title</button>
-                        <button id="recently-read" class="bg-[#9F9F92] text-white font-bold py-2 px-4 rounded-full hover:bg-[#463F3A] transition ease-in-out">Recently Read</button>
-                    </div>
-                </div>
+      <div class="pt-20 p-8 md:mt-[-20px] md:pt-20 md:p-16 lg:mt-[-40px] lg:pt-28 lg:p-24 xl:mt-[-60px] xl:pt-36 xl:p-32">
 
+        <!-- starting content -->
+        <div>
+
+          <div class="pb-5">
+
+            <h1 class="font-bold text-4xl text-[#463F3A] pb-2">
+              <a href="/about" class="hover:text-[#8A817C] transition ease-in-out">bizarrebeam</a>'s corner
+            </h1>
+
+            <p class="text-justify">
+              A tiny corner of my reading journal. Would you want to read it too? I give my own summaries, highlight parts from the book, and link them to <a href="https://openlibrary.org/" class="font-bold text-[#8A817C] hover:text-[#2e2b29] underline">OpenLibrary</a> if you want to read more descriptions of the book. This page will continuously update as I read more. Flip it, let's go!
+            </p>
+
+          </div>
+
+          <div>
+
+            <p class="font-bold text-[#463F3A] pb-1">Sort by</p>
+
+            <div class="flex">
+              <button id="title" class="bg-[#9F9F92] text-white font-bold py-2 px-4 rounded-full hover:bg-[#463F3A] transition ease-in-out mr-3"> Title</button>
+              <button id="recently-read" class="bg-[#9F9F92] text-white font-bold py-2 px-4 rounded-full hover:bg-[#463F3A] transition ease-in-out">Recently Read</button>
             </div>
 
-            <!-- books card -->
-            <div class="mt-5">
-
-                <% books.forEach(book => { %>
-                    <div class="bg-[#F4F1EA] rounded-2xl p-5 w-full mb-5">
-                      <div class="flex">
-                        <!-- book cover -->
-                        <div class="flex-none">
-                          <img src="<%= book.coverUrl %>" alt="Book Cover" class="w-32 h-auto rounded-lg">
-                        </div>
-                        <!-- content section -->
-                        <div class="ml-4 flex-grow">
-                          <!-- title -->
-                          <h2 class="text-2xl font-bold text-black"><%= book.title %></h2>
-                          <!-- author -->
-                          <p class="text-lg font-bold text-[#8A817C]"><%= book.author %></p>
-                          <!-- finished date -->
-                          <p class="text-base text-[#8A817C] text-right mt-1">Finished at <%= book.finished_month_year %></p>
-                          <!-- reviews -->
-                          <div class="mt-3 sm:mt-0 text-black">
-                            <p class="line-clamp-4 text-justify">
-                              <%= book.summary_text %>
-                            </p>
-                            <a href="/review" class="text-[#E0AFA0] hover:text-[#8A817C]">...peek more</a>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="mt-2 flex flex-grow-0 justify-end items-start sm:space-x-4 sm:mt-4 sm:items-center">
-                        <a href="https://openlibrary.org/isbn/<%= book.isbn %>" target="_blank" rel="noopener noreferrer" class="bg-[#9F9F92] hover:bg-[#463F3A] text-white font-bold py-2 px-4 rounded-full transition duration-150 mr-2">
-                            More on OpenLibrary
-                        </a>
-                    
-                        <a href="/review" class="w-40 bg-[#463F3A] hover:bg-[#9F9F92] text-white font-bold py-2 px-4 rounded-full transition duration-150">Read my notes</a>
-                      </div>
-                    </div>
-                  <% }) %>
-                  
-
-            </div>
+          </div>
 
         </div>
+
+        <!-- books card -->
+        <div class="mt-5">
+          
+          <% books.forEach(book => { %>
+            <div class="bg-[#F4F1EA] rounded-2xl p-5 w-full mb-5">
+
+              <div class="flex">
+
+                <!-- book cover -->
+                <div class="flex-none">
+                  <img src="<%= book.cover_url %>" alt="Book Cover" class="w-32 h-auto rounded-lg">
+                </div>
+
+                <!-- content section -->
+                <div class="ml-4 flex-grow">
+
+                  <!-- title -->
+                  <h2 class="text-2xl font-bold text-black"><%= book.title %></h2>
+
+                  <!-- author -->
+
+                  <p class="text-lg font-bold text-[#8A817C]"><%= book.author %></p>
+                  <!-- finished date -->
+
+                  <p class="text-base text-[#8A817C] text-right mt-1">Finished at <%= book.finished_month_year %></p>
+                  <!-- reviews -->
+
+                  <div class="mt-3 sm:mt-0 text-black">
+                    <p class="line-clamp-4 text-justify">
+                      <%= book.summary_text %>
+                    </p>
+
+                    <a href="/review/<%= book.book_id %>" class="text-[#E0AFA0] hover:text-[#8A817C]">...peek more</a>
+                  </div>
+                  
+                </div>
+
+              </div>
+
+              <div class="mt-2 flex flex-grow-0 justify-end items-start sm:space-x-4 sm:mt-4 sm:items-center">
+                <a href="https://openlibrary.org/isbn/<%= book.isbn %>" class="bg-[#9F9F92] hover:bg-[#463F3A] text-white font-bold py-2 px-4 rounded-full transition duration-150 mr-2">More on OpenLibrary</a>
+                <a href="/review/<%= book.book_id %>" class="w-40 bg-[#463F3A] hover:bg-[#9F9F92] text-white font-bold py-2 px-4 rounded-full transition duration-150">Read my notes</a>
+              </div>
+
+            </div>
+
+          <% }) %>
+
+        </div>
+
+      </div>
+
     </div>
 
   </div>
-
+  
 </div>
 
 </body>
