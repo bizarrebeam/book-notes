@@ -1,93 +1,76 @@
 <%- include('partials/header.ejs') %>
 
-    
-    <!-- background image -->
-    <div class="h-screen fixed inset-0 overflow-hidden z-0">
-        <img src="<%= book.cover_url %>" alt="Book Cover Background" class="h-full background-blur">
-    </div>
+<!-- background image -->
+<div class="h-screen fixed inset-0 overflow-hidden z-0">
+    <img src="<%= book.cover_url %>" alt="Book Cover Background" class="h-full background-blur">
+</div>
 
-    <!-- back button -->
-    <a href="/" class="absolute top-7 left-7 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:bg-gray-200 active:bg-gray-300 transition cursor-pointer z-30">
-        <i class="fa fa-arrow-left text-xl text-black"></i>
-    </a>
+<!-- back button -->
+<a href="/" class="absolute top-7 left-7 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:bg-gray-200 active:bg-gray-300 transition cursor-pointer z-30">
+    <i class="fa fa-arrow-left text-xl text-black"></i>
+</a>
 
-   <!-- Left content -->
-    <div class="fixed top-0 left-0 sm:h-screen h-2/5 sm:w-96 w-full z-10 flex flex-col bg-transparent justify-center items-center">
-
-        <div class="flex flex-col flex-grow justify-center sm:ju items-center sm:w-64">
-
-            <div class="flex-none">
-                <img src="<%= book.cover_url %>" alt="Book Cover" class="rounded-lg book-cover sm:w-52 w-32 mt-3">
-            </div>
-            
-            <!-- Book name -->
-            <h2 class="sm:text-xl text-base font-bold text-white mt-3 text-center text-shadow"><%= book.title %></h2>
-
-            <!-- Author -->
-            <p class="sm:text-base text-sm text-white text-center text-shadow"><%= book.author %></p>
-
-    
+<!-- left content -->
+<div class="fixed top-0 left-0 sm:h-screen h-2/5 sm:w-96 w-full z-10 flex flex-col bg-transparent justify-center items-center">
+    <div class="flex flex-col flex-grow justify-center sm:ju items-center sm:w-64">
+        <div class="flex-none">
+            <img src="<%= book.cover_url %>" alt="Book Cover" class="rounded-lg book-cover sm:w-52 w-32 mt-3">
         </div>
+        
+        <!-- book name -->
+        <h2 class="sm:text-xl text-base font-bold text-white mt-3 text-center text-shadow"><%= book.title %></h2>
+
+        <!-- author -->
+        <p class="sm:text-base text-sm text-white text-center text-shadow"><%= book.author %></p>
     </div>
+</div>
 
-    <!-- right content white container -->
-    <div class="fixed sm:top-0 bottom-0 right-0 sm:h-screen h-3/5 sm:w-[calc(100%-24rem)] w-full z-20 bg-white rounded-tl-3xl sm:rounded-l-3xl overflow-y-auto sm:p-10 p-8">
-
-        <!-- all content -->
-        <div class="max-w-4xl mx-auto flex flex-col">
-
-            <!-- books identity: i have to mimic the parent so i could justify end it idk why -->
-            <div class="max-w-4xl flex justify-end">
-
-                <div class="flex flex-row justify-end w-52 sm:mt-4 mt-1">
-                    <!-- label identity -->
-                    <div class="flex-1 sm:text-sm text-xxs text-[#747474] justify-end">
-                        <p class="mb-1">ISBN</p>
-                        <p class="mb-1">Language</p>
-                        <p class="mb-1">Finished at</p>
-                    </div>
-                    <!-- value identity -->
-                    <div class="flex-1 sm:text-sm text-xxs font-bold justify-end">
-                        <p class="mb-1"><%= book.isbn %></p>
-                        <p class="mb-1"><%= book.language %></p>
-                        <p class="mb-1"><%= book.finished_month_year %></p>
-                    </div>
+<!-- right content white container -->
+<div class="fixed sm:top-0 bottom-0 right-0 sm:h-screen h-3/5 sm:w-[calc(100%-24rem)] w-full z-20 bg-white rounded-tl-3xl sm:rounded-l-3xl overflow-y-auto sm:p-10 p-8">
+    <!-- all content -->
+    <div class="max-w-4xl mx-auto flex flex-col">
+        <!-- book identity -->
+        <div class="max-w-4xl flex justify-end">
+            <div class="flex flex-row justify-end w-52 sm:mt-4 mt-1">
+                <!-- label identity -->
+                <div class="flex-1 sm:text-sm text-xxs text-[#747474] justify-end">
+                    <p class="mb-1">ISBN</p>
+                    <p class="mb-1">Language</p>
+                    <p class="mb-1">Finished at</p>
                 </div>
-
-            </div>
-
-            <!-- review section -->
-            <div class="">
-            
-                <h1 class="font-bold sm:text-4xl text-3xl mt-6">how i would summarize it</h1>
-
-                <!-- review paragraph -->
-                <p class="text-justify mt-2 sm:text-base text-xs">
-                    <%= book.summary_text %>
-                </p>
-
-                <!-- link to openlibrary -->
-                <div class="flex flex-row justify-end mt-4">
-                    <a href="https://openlibrary.org/isbn/<%= book.isbn %>" class="flex items-center justify-center bg-[#463F3A] hover:bg-[#9F9F92] text-white font-bold sm:py-2 sm:px-4 px-2 h-7 sm:h-10 sm:text-base text-xs rounded-full transition duration-150 leading-none">More on OpenLibrary</a>
-                </div>
-
-            </div>
-
-            <!-- highlight card section -->
-            <div class="mt-7">
-                <h1 class="font-bold sm:text-4xl text-3xl">highlights</h1>
-                <div class="mt-5">
-                    <% book.highlight_text.forEach(highlight => { %>
-                        <div class="bg-[#F4F1EA] rounded-2xl pt-2 p-4 w-full mb-5">
-                            <img src="/assets/quote.png" alt="quote-image" class="sm:w-14 w-10">
-                            <p class="text-justify sm:text-base text-xs"><%= highlight %></p>
-                        </div>
-                    <% }) %>
+                <!-- value identity -->
+                <div class="flex-1 sm:text-sm text-xxs font-bold justify-end">
+                    <p class="mb-1"><%= book.isbn %></p>
+                    <p class="mb-1"><%= book.language %></p>
+                    <p class="mb-1"><%= book.finished_month_year %></p>
                 </div>
             </div>
-
         </div>
 
+        <!-- review section -->
+        <div>
+            <h1 class="font-bold sm:text-4xl text-3xl mt-6">how i would summarize it</h1>
+            <p class="text-justify mt-2 sm:text-base text-xs"><%= book.summary_text %></p>
+
+            <!-- link to openlibrary -->
+            <div class="flex flex-row justify-end mt-4">
+                <a href="https://openlibrary.org/isbn/<%= book.isbn %>" class="flex items-center justify-center bg-[#463F3A] hover:bg-[#9F9F92] text-white font-bold sm:py-2 sm:px-4 px-2 h-7 sm:h-10 sm:text-base text-xs rounded-full transition duration-150 leading-none">more on openlibrary</a>
+            </div>
+        </div>
+
+        <!-- highlight card section -->
+        <div class="mt-7">
+            <h1 class="font-bold sm:text-4xl text-3xl">highlights</h1>
+            <div class="mt-5">
+                <% book.highlight_text.forEach(highlight => { %>
+                    <div class="bg-[#F4F1EA] rounded-2xl pt-2 p-6 w-full mb-5">
+                        <img src="/assets/quote.png" alt="quote-image" class="sm:w-14 w-10">
+                        <p class="text-justify sm:text-base text-xs"><%= highlight %></p>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
     </div>
+</div>
 
 </body>
