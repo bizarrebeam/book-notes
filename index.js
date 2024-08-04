@@ -6,6 +6,20 @@ import axios from "axios";
 
 dotenv.config();
 
+const { Pool } = pg;
+
+const pool = new Pool({
+  connectionString: process.env.POSTGRES_URL,
+});
+
+pool.connect((err, client, release) => {
+  if (err) {
+    return console.error('Error acquiring client', err.stack);
+  }
+  console.log('Database connected');
+  release();
+});
+
 const app = express();
 const port = process.env.PORT || 3000;
 
