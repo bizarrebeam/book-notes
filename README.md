@@ -1,6 +1,6 @@
 # A Collection of Adelya's Reading
 
-Welcome to my book notes web application! This is a collection of my reading notes--I summarize books and highlight sentences that resonate with me the most. Started this project as part of my capstone to learn about databases. This website is heavily influenced by Derek Sivers's book notes! (https://sive.rs/book)
+Welcome to my book notes web application! This is a collection of my reading notes--I summarize books and highlight sentences that resonate with me the most. Started this project as part of my capstone to learn about databases. This website is heavily influenced by [Derek Sivers's book notes!](https://sive.rs/book)
 
 ## About the Project
 
