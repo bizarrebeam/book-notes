@@ -16,7 +16,9 @@ const db = new pg.Client({
   }
 });
 
+let dbConnected = false;
 async function connectDatabase() {
+  if (dbConnected) return;
   try {
     await db.connect();
     await db.query('SET search_path TO BOOKS');
@@ -48,6 +50,17 @@ app.get("/debug", async (req, res) => {
       error: err.message,
       stack: err.stack
     });
+  }
+});
+// make suredatabase is connected before handling requests
+app.use(async (req, res, next) => {
+  try {
+    if (!dbConnected) {
+      await connectDatabase();
+    }
+    next();
+  } catch (err) {
+    res.status(500).send(`Database connection failed: ${err.message}`);
   }
 });
 
@@ -88,7 +101,11 @@ app.get("/", async (req, res) => {
     res.render("home.ejs", { books: books });
   } catch (err) {
     console.error("error fetching data for home page", err);
-    res.status(500).send("internal server error");
+    res.send(`
+      <h1>Error Details:</h1>
+      <p><strong>Message:</strong> ${err.message}</p>
+      <p><strong>Stack:</strong> <pre>${err.stack}</pre></p>
+    `);
   }
 });
 
