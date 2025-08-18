@@ -19,14 +19,23 @@ const db = new pg.Client({
 let dbConnected = false;
 
 async function connectDatabase() {
-  if (dbConnected) return;
+  if (dbConnected) return; 
   
   try {
+    if (db._connected) {
+      dbConnected = true;
+      return;
+    }
+    
     await db.connect();
     await db.query('SET search_path TO BOOKS');
     dbConnected = true;
     console.log("connected to db");
   } catch (err) {
+    if (err.message.includes('already been connected')) {
+      dbConnected = true; 
+      return;
+    }
     console.error("error connecting to db", err);
   }
 }
@@ -36,50 +45,22 @@ connectDatabase();
 // view engine
 app.set('view engine', 'ejs');
 
-// use middleware
+// use middleware 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
-
-// debug route
-app.get("/debug", async (req, res) => {
-  try {
-    res.json({
-      status: "Server is running",
-      database_url: process.env.DATABASE_URL ? "Found" : "Missing",
-      timestamp: new Date().toISOString()
-    });
-  } catch (err) {
-    res.json({
-      error: err.message,
-      stack: err.stack
-    });
-  }
-});
-
-
-// make suredatabase is connected before handling requests
 app.use(async (req, res, next) => {
   try {
-    if (!dbConnected) {
+    if (!dbConnected && !db._connected) {
       await connectDatabase();
     }
     next();
   } catch (err) {
-    res.status(500).send(`Database connection failed: ${err.message}`);
-  }
-});
-
-// Emergency debug route - add this RIGHT after middleware
-app.get("/test", (req, res) => {
-  res.send("Server is working!");
-});
-
-app.get("/testdb", async (req, res) => {
-  try {
-    const result = await db.query("SELECT 1 as test");
-    res.send(`Database test success: ${JSON.stringify(result.rows)}`);
-  } catch (err) {
-    res.send(`Database error: ${err.message} | Stack: ${err.stack}`);
+    if (err.message.includes('already been connected')) {
+      dbConnected = true;
+      next(); // Continue anyway
+    } else {
+      res.status(500).send(`Database connection failed: ${err.message}`);
+    }
   }
 });
 
