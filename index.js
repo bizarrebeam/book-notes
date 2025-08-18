@@ -15,7 +15,6 @@ const db = new pg.Client({
     rejectUnauthorized: false
   }
 });
-db.connect();
 
 async function connectDatabase() {
   try {
