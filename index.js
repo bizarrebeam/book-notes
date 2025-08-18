@@ -56,6 +56,7 @@ app.get("/debug", async (req, res) => {
   }
 });
 
+
 // make suredatabase is connected before handling requests
 app.use(async (req, res, next) => {
   try {
@@ -65,6 +66,20 @@ app.use(async (req, res, next) => {
     next();
   } catch (err) {
     res.status(500).send(`Database connection failed: ${err.message}`);
+  }
+});
+
+// Emergency debug route - add this RIGHT after middleware
+app.get("/test", (req, res) => {
+  res.send("Server is working!");
+});
+
+app.get("/testdb", async (req, res) => {
+  try {
+    const result = await db.query("SELECT 1 as test");
+    res.send(`Database test success: ${JSON.stringify(result.rows)}`);
+  } catch (err) {
+    res.send(`Database error: ${err.message} | Stack: ${err.stack}`);
   }
 });
 
