@@ -44,6 +44,7 @@ connectDatabase();
 
 // view engine
 app.set('view engine', 'ejs');
+app.set('views', './views');
 
 // use middleware 
 app.use(bodyParser.urlencoded({ extended: true }));
