@@ -16,7 +16,21 @@ const db = new pg.Client({
   }
 });
 db.connect();
-await db.query('SET search_path TO BOOKS');
+
+async function connectDatabase() {
+  try {
+    await db.connect();
+    await db.query('SET search_path TO BOOKS');
+    console.log("connected to db");
+  } catch (err) {
+    console.error("error connecting to db", err);
+  }
+}
+
+connectDatabase();
+
+// view engine
+app.set('view engine', 'ejs');
 
 // use middleware
 app.use(bodyParser.urlencoded({ extended: true }));
