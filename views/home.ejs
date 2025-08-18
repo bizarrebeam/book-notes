@@ -1,7 +1,7 @@
 <%- include('partials/header.ejs') %>
 
 <div class="relative w-full min-h-screen flex flex-col">
-  <img src="/assets/background.jpg" class="absolute inset-0 w-full object-cover" alt="Background Image">
+  <img src="/assets/background.jpg" class="absolute inset-0 w-full object-cover" alt="Background Image" loading="lazy">
 
   <div class="relative bg-white rounded-t-[50px] w-full flex-1" style="top: 100px;">
 
@@ -36,7 +36,7 @@
 
               <!-- book cover -->
               <div class="flex-none">
-                <img src="<%= book.cover_url %>" alt="book cover" class="sm:w-32 w-24 h-auto rounded-lg">
+                <img src="<%= book.cover_url %>" alt="book cover" class="sm:w-32 w-24 h-auto rounded-lg" loading="lazy">
               </div>
 
               <!-- content section -->

@@ -1,3 +1,11 @@
+DROP SCHEMA IF EXISTS BOOKS CASCADE;
+
+-- Create schema
+CREATE SCHEMA BOOKS;
+
+-- Set search path
+SET search_path TO BOOKS;
+
 CREATE TABLE books (
     book_id SERIAL PRIMARY KEY,
     title VARCHAR(255) UNIQUE NOT NULL,
@@ -5,7 +13,7 @@ CREATE TABLE books (
     isbn VARCHAR(13) UNIQUE NOT NULL,  -- ISBN used for fetching the cover
     language VARCHAR(50),
     finished_month_year VARCHAR(20)  -- store month and year as text
-    cover_url VARCHAR(255) --  to make the load faster, i decide to store the cover image
+    cover_url VARCHAR(255), --  to make the load faster, i decide to store the cover image
 );
 
 CREATE TABLE book_reviews (

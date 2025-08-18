@@ -2,7 +2,7 @@
 
 <!-- background image -->
 <div class="h-screen fixed inset-0 overflow-hidden z-0">
-    <img src="<%= book.cover_url %>" alt="Book Cover Background" class="h-full background-blur">
+    <img src="<%= book.cover_url %>" alt="Book Cover Background" class="h-full background-blur" loading="lazy">
 </div>
 
 <!-- back button -->
@@ -14,7 +14,7 @@
 <div class="fixed top-0 left-0 sm:h-screen h-2/5 sm:w-96 w-full z-10 flex flex-col bg-transparent justify-center items-center">
     <div class="flex flex-col flex-grow justify-center sm:ju items-center sm:w-64">
         <div class="flex-none">
-            <img src="<%= book.cover_url %>" alt="Book Cover" class="rounded-lg book-cover sm:w-52 w-32 mt-3">
+            <img src="<%= book.cover_url %>" alt="Book Cover" class="rounded-lg book-cover sm:w-52 w-32 mt-3" loading="lazy">
         </div>
         
         <!-- book name -->
@@ -64,7 +64,7 @@
             <div class="mt-5">
                 <% book.highlight_text.forEach(highlight => { %>
                     <div class="bg-[#F4F1EA] rounded-2xl pt-2 p-6 w-full mb-5">
-                        <img src="/assets/quote.png" alt="quote-image" class="sm:w-14 w-10">
+                        <img src="/assets/quote.png" alt="quote-image" class="sm:w-14 w-10" loading="lazy">
                         <p class="text-justify sm:text-base text-xs"><%= highlight %></p>
                     </div>
                 <% }) %>
