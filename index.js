@@ -17,18 +17,21 @@ const db = new pg.Client({
 });
 
 let dbConnected = false;
+
 async function connectDatabase() {
   if (dbConnected) return;
+  
   try {
     await db.connect();
     await db.query('SET search_path TO BOOKS');
+    dbConnected = true;
     console.log("connected to db");
   } catch (err) {
     console.error("error connecting to db", err);
   }
 }
 
-await connectDatabase();
+connectDatabase();
 
 // view engine
 app.set('view engine', 'ejs');
@@ -52,6 +55,7 @@ app.get("/debug", async (req, res) => {
     });
   }
 });
+
 // make suredatabase is connected before handling requests
 app.use(async (req, res, next) => {
   try {
