@@ -35,6 +35,39 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+
+// Add this route for debugging
+app.get("/debug", async (req, res) => {
+  try {
+    res.json({
+      status: "Server is running",
+      database_url: process.env.DATABASE_URL ? "Found" : "Missing",
+      timestamp: new Date().toISOString()
+    });
+  } catch (err) {
+    res.json({
+      error: err.message,
+      stack: err.stack
+    });
+  }
+});
+
+// Also modify your home route to show errors
+app.get("/", async (req, res) => {
+  try {
+    const sortBy = req.query.sort;
+    const books = await getBooks(sortBy);
+    res.render("home.ejs", { books: books });
+  } catch (err) {
+    // Show the actual error instead of generic message
+    res.send(`
+      <h1>Error Details:</h1>
+      <p><strong>Message:</strong> ${err.message}</p>
+      <p><strong>Stack:</strong> <pre>${err.stack}</pre></p>
+    `);
+  }
+});
+
 /**
  * get books from the database and sort them
  * @param {string} sortBy - how to sort the books ('title' or 'recently-read')
