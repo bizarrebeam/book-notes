@@ -3,8 +3,13 @@ import bodyParser from "body-parser";
 import pg from "pg";
 import dotenv from "dotenv";
 import axios from "axios";
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -44,7 +49,7 @@ connectDatabase();
 
 // view engine
 app.set('view engine', 'ejs');
-app.set('views', './views');
+app.set('views', path.join(__dirname, 'views'));
 
 // use middleware 
 app.use(bodyParser.urlencoded({ extended: true }));
