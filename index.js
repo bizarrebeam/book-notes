@@ -24,24 +24,24 @@ const db = new pg.Client({
 let dbConnected = false;
 
 async function connectDatabase() {
-  if (dbConnected) return; 
+  if (dbConnected) return;
   
   try {
-    if (db._connected) {
-      dbConnected = true;
-      return;
+    
+    if (!db._connected) {
+      await db.connect();
     }
     
-    await db.connect();
+   
+    await db.query('SELECT 1'); 
     await db.query('SET search_path TO BOOKS');
+    
     dbConnected = true;
-    console.log("connected to db");
+    console.log("Database connected and schema set");
   } catch (err) {
-    if (err.message.includes('already been connected')) {
-      dbConnected = true; 
-      return;
-    }
-    console.error("error connecting to db", err);
+    console.error("Database connection failed:", err);
+    dbConnected = false;
+    throw err; 
   }
 }
 
@@ -56,17 +56,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(async (req, res, next) => {
   try {
-    if (!dbConnected && !db._connected) {
-      await connectDatabase();
-    }
+    await connectDatabase(); 
     next();
   } catch (err) {
-    if (err.message.includes('already been connected')) {
-      dbConnected = true;
-      next(); // Continue anyway
-    } else {
-      res.status(500).send(`Database connection failed: ${err.message}`);
-    }
+    console.error("Middleware database error:", err);
+    res.status(500).send(`Database error: ${err.message}`);
   }
 });
 
