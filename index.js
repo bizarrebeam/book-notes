@@ -81,6 +81,10 @@ app.use(async (req, res, next) => {
   }
 });
 
+app.get('/styles/output.css', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'styles', 'output.css'));
+});
+
 /**
  * get books from the database and sort them
  * @param {string} sortBy - how to sort the books ('title' or 'recently-read')
