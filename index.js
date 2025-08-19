@@ -5,6 +5,8 @@ import path from 'path';
 import { db } from './config/database.js';
 import databaseMiddleware from './middleware/database.js';
 import { serveStaticCSS, serveStaticAssets, projectRoot } from './utils/static.js';
+import fs from 'fs';
+import sharp from "sharp";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -124,19 +126,30 @@ app.post("/compose", async (req, res) => {
   try {
     const { title, author, isbn, language, finished_at, summarize, highlights } = req.body;
 
-    // download dan simpan image ke base64
+    // download dan optimize image
     let coverUrl;
     try {
-      const imageUrl = `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`;
+      const imageUrl = `https://covers.openlibrary.org/b-isbn/${isbn}-L.jpg`;
       const response = await axios.get(imageUrl, { 
         responseType: 'arraybuffer',
         timeout: 10000
       });
       
-      const imageBuffer = Buffer.from(response.data);
-      const base64Image = imageBuffer.toString('base64');
-      const mimeType = response.headers['content-type'] || 'image/jpeg';
-      coverUrl = `data:${mimeType};base64,${base64Image}`;
+      // optimize image dengan sharp
+      const optimizedBuffer = await sharp(response.data)
+        .resize(300, 400, { 
+          fit: 'cover',
+          position: 'center'
+        })
+        .jpeg({ 
+          quality: 60,
+          progressive: true
+        })
+        .toBuffer();
+      
+      // convert to base64
+      const base64Image = optimizedBuffer.toString('base64');
+      coverUrl = `data:image/jpeg;base64,${base64Image}`;
       
     } catch (err) {
       coverUrl = "/assets/default.png";
