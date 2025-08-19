@@ -1,61 +1,17 @@
 import express from "express";
 import bodyParser from "body-parser";
-import pg from "pg";
-import dotenv from "dotenv";
 import axios from "axios";
 import path from 'path';
-import { fileURLToPath } from 'url';
-
-dotenv.config();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { db } from './config/database.js';
+import databaseMiddleware from './middleware/database.js';
+import { serveStaticCSS, serveStaticAssets, projectRoot } from './utils/static.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-const db = new pg.Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
-
-let dbConnected = false;
-
-async function connectDatabase() {
-  if (dbConnected) return;
-  
-  try {
-    if (db._connected) {
-      dbConnected = true;
-      await db.query('SET search_path TO BOOKS');
-      return;
-    }
-    
-    await db.connect();
-    await db.query('SELECT 1'); 
-    await db.query('SET search_path TO BOOKS');
-    
-    dbConnected = true;
-    console.log("Database connected and schema set");
-  } catch (err) {
-    if (err.message.includes('already been connected')) {
-      dbConnected = true;
-      await db.query('SET search_path TO BOOKS'); 
-      return;
-    }
-    console.error("Database connection failed:", err);
-    dbConnected = false;
-    throw err; 
-  }
-}
-
-connectDatabase();
-
 // view engine
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(projectRoot, 'views'));
 
 // use middleware 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -63,33 +19,11 @@ app.use(express.static("public", {
   maxAge: '1d',
   etag: true
 }));
-app.use(async (req, res, next) => {
-  try {
-    if (!dbConnected) {
-      await connectDatabase(); 
-    }
-    next();
-  } catch (err) {
-    // handle the "already been connected" 
-    if (err.message.includes('already been connected')) {
-      dbConnected = true;
-      next(); 
-    } else {
-      console.error("Middleware database error:", err);
-      res.status(500).send(`Database error: ${err.message}`);
-    }
-  }
-});
+app.use(databaseMiddleware);
 
 // explicitly serve the css and assets
-app.get('/styles/output.css', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'styles', 'output.css'));
-});
-app.get('/assets/:filename', (req, res) => {
-  const filename = req.params.filename;
-  const filepath = path.join(__dirname, 'public', 'assets', filename);
-  res.sendFile(filepath);
-});
+app.get('/styles/output.css', serveStaticCSS);
+app.get('/assets/:filename', serveStaticAssets);
 
 /**
  * get books from the database and sort them
@@ -129,9 +63,9 @@ app.get("/", async (req, res) => {
   } catch (err) {
     console.error("error fetching data for home page", err);
     res.send(`
-      <h1>Error Details:</h1>
-      <p><strong>Message:</strong> ${err.message}</p>
-      <p><strong>Stack:</strong> <pre>${err.stack}</pre></p>
+      <h1>error details:</h1>
+      <p><strong>message:</strong> ${err.message}</p>
+      <p><strong>stack:</strong> <pre>${err.stack}</pre></p>
     `);
   }
 });
