@@ -124,15 +124,30 @@ app.post("/compose", async (req, res) => {
   try {
     const { title, author, isbn, language, finished_at, summarize, highlights } = req.body;
 
-    // get the cover url
-    let coverUrl = `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`;
+    // download dan simpan image ke local storage
+    let coverUrl;
     try {
-      await axios.get(coverUrl);
+      const imageUrl = `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`;
+      
+      // download image dari openlibrary
+      const response = await axios.get(imageUrl, { 
+        responseType: 'arraybuffer',
+        timeout: 10000 // 10 second timeout
+      });
+      
+      // convert ke base64 dan simpan di database
+      const imageBuffer = Buffer.from(response.data);
+      const base64Image = imageBuffer.toString('base64');
+      const mimeType = response.headers['content-type'] || 'image/jpeg';
+      
+      // create data url untuk disimpan di database
+      coverUrl = `data:${mimeType};base64,${base64Image}`;
+      
     } catch (err) {
       coverUrl = "/assets/default.png";
     }
 
-    // insert book into the database
+    // insert book into the database (sama seperti sebelumnya)
     const bookQuery = `
       INSERT INTO books (title, author, isbn, language, finished_month_year, cover_url)
       VALUES ($1, $2, $3, $4, $5, $6)

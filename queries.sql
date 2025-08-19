@@ -13,7 +13,7 @@ CREATE TABLE books (
     isbn VARCHAR(13) UNIQUE NOT NULL,  -- ISBN used for fetching the cover
     language VARCHAR(50),
     finished_month_year VARCHAR(20)  -- store month and year as text
-    cover_url VARCHAR(255), --  to make the load faster, i decide to store the cover image
+    cover_url TEXT, --  changed to TEXT to store base64 images or urls
 );
 
 CREATE TABLE book_reviews (
