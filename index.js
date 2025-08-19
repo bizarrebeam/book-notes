@@ -124,30 +124,25 @@ app.post("/compose", async (req, res) => {
   try {
     const { title, author, isbn, language, finished_at, summarize, highlights } = req.body;
 
-    // download dan simpan image ke local storage
+    // download dan simpan image ke base64
     let coverUrl;
     try {
       const imageUrl = `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`;
-      
-      // download image dari openlibrary
       const response = await axios.get(imageUrl, { 
         responseType: 'arraybuffer',
-        timeout: 10000 // 10 second timeout
+        timeout: 10000
       });
       
-      // convert ke base64 dan simpan di database
       const imageBuffer = Buffer.from(response.data);
       const base64Image = imageBuffer.toString('base64');
       const mimeType = response.headers['content-type'] || 'image/jpeg';
-      
-      // create data url untuk disimpan di database
       coverUrl = `data:${mimeType};base64,${base64Image}`;
       
     } catch (err) {
       coverUrl = "/assets/default.png";
     }
 
-    // insert book into the database (sama seperti sebelumnya)
+    // insert book 
     const bookQuery = `
       INSERT INTO books (title, author, isbn, language, finished_month_year, cover_url)
       VALUES ($1, $2, $3, $4, $5, $6)
@@ -158,15 +153,15 @@ app.post("/compose", async (req, res) => {
 
     let bookId;
     if (bookResult.rows.length > 0) {
-      bookId = bookResult.rows[0].book_id;
+      bookId = bookResult.rows[0].book_id; 
     } else {
-      // if the book is already in the database
+      // kalau book sudah ada, ambil uuid-nya
       const existQuery = `SELECT book_id FROM books WHERE isbn = $1;`;
       const existResult = await db.query(existQuery, [isbn]);
       bookId = existResult.rows[0].book_id;
     }
 
-    // insert review into the database
+    // insert review, uuid reference
     const reviewQuery = `
       INSERT INTO book_reviews (book_id, summary_text, highlight_text)
       VALUES ($1, $2, $3);
