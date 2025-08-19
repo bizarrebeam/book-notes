@@ -59,7 +59,10 @@ app.set('views', path.join(__dirname, 'views'));
 
 // use middleware 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("public"));
+app.use(express.static("public", {
+  maxAge: '1d',
+  etag: true
+}));
 app.use(async (req, res, next) => {
   try {
     if (!dbConnected) {

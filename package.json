@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "node index.js",
+    "build": "tailwindcss -i ./public/styles/input.css -o ./public/styles/output.css --minify",
     "dev": "tailwindcss -i ./public/styles/input.css -o ./public/styles/output.css --watch",
     "dev:all": "concurrently \"nodemon index.js\" \"npm run dev\""
   },
