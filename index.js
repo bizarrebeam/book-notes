@@ -81,8 +81,14 @@ app.use(async (req, res, next) => {
   }
 });
 
+// explicitly serve the css and assets
 app.get('/styles/output.css', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'styles', 'output.css'));
+});
+app.get('/assets/:filename', (req, res) => {
+  const filename = req.params.filename;
+  const filepath = path.join(__dirname, 'public', 'assets', filename);
+  res.sendFile(filepath);
 });
 
 /**
