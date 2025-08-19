@@ -27,18 +27,24 @@ async function connectDatabase() {
   if (dbConnected) return;
   
   try {
-    
-    if (!db._connected) {
-      await db.connect();
+    if (db._connected) {
+      dbConnected = true;
+      await db.query('SET search_path TO BOOKS');
+      return;
     }
     
-   
+    await db.connect();
     await db.query('SELECT 1'); 
     await db.query('SET search_path TO BOOKS');
     
     dbConnected = true;
     console.log("Database connected and schema set");
   } catch (err) {
+    if (err.message.includes('already been connected')) {
+      dbConnected = true;
+      await db.query('SET search_path TO BOOKS'); 
+      return;
+    }
     console.error("Database connection failed:", err);
     dbConnected = false;
     throw err; 
@@ -56,11 +62,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(async (req, res, next) => {
   try {
-    await connectDatabase(); 
+    if (!dbConnected) {
+      await connectDatabase(); 
+    }
     next();
   } catch (err) {
-    console.error("Middleware database error:", err);
-    res.status(500).send(`Database error: ${err.message}`);
+    // handle the "already been connected" 
+    if (err.message.includes('already been connected')) {
+      dbConnected = true;
+      next(); 
+    } else {
+      console.error("Middleware database error:", err);
+      res.status(500).send(`Database error: ${err.message}`);
+    }
   }
 });
 
