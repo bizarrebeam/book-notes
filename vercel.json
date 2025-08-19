@@ -1,10 +1,5 @@
 {
   "buildCommand": "npm run build",
-  "functions": {
-    "index.js": {
-      "includeFiles": "public/**"
-    }
-  },
   "headers": [
     {
       "source": "/assets/(.*)",
