@@ -33,7 +33,7 @@
         <div class="max-w-4xl flex justify-end">
             <div class="flex flex-row justify-end w-52 sm:mt-4 mt-1">
                 <!-- label identity -->
-                <div class="flex-1 sm:text-sm text-xxs text-[#747474] justify-end">
+                <div class="flex-1 sm:text-sm text-xxs text-gray-500 justify-end">
                     <p class="mb-1">ISBN</p>
                     <p class="mb-1">Language</p>
                     <p class="mb-1">Finished at</p>
@@ -54,7 +54,7 @@
 
             <!-- link to openlibrary -->
             <div class="flex flex-row justify-end mt-4">
-                <a href="https://openlibrary.org/isbn/<%= book.isbn %>" class="flex items-center justify-center bg-[#463F3A] hover:bg-[#9F9F92] text-white font-bold sm:py-2 sm:px-4 px-2 h-7 sm:h-10 sm:text-base text-xs rounded-full transition duration-150 leading-none">more on openlibrary</a>
+                <a href="https://openlibrary.org/isbn/<%= book.isbn %>" class="flex items-center justify-center bg-brown-1 hover:bg-brown-2 text-white font-bold sm:py-2 sm:px-4 px-2 h-7 sm:h-10 sm:text-base text-xs rounded-full transition duration-150 leading-none">more on openlibrary</a>
             </div>
         </div>
 
@@ -63,7 +63,7 @@
             <h1 class="font-bold sm:text-4xl text-3xl">highlights</h1>
             <div class="mt-5">
                 <% book.highlight_text.forEach(highlight => { %>
-                    <div class="bg-[#F4F1EA] rounded-2xl pt-2 p-6 w-full mb-5">
+                    <div class="bg-brown-3 rounded-2xl pt-2 p-6 w-full mb-5">
                         <img src="/assets/quote.png" alt="quote-image" class="sm:w-14 w-10" loading="lazy">
                         <p class="text-justify sm:text-base text-xs"><%= highlight %></p>
                     </div>

@@ -708,6 +708,10 @@ video {
   margin-top: 2rem;
 }
 
+.mb-2{
+  margin-bottom: 0.5rem;
+}
+
 .line-clamp-5{
   overflow: hidden;
   display: -webkit-box;
@@ -853,6 +857,10 @@ video {
   border-radius: 0.5rem;
 }
 
+.rounded{
+  border-radius: 0.25rem;
+}
+
 .rounded-t-\[50px\]{
   border-top-left-radius: 50px;
   border-top-right-radius: 50px;
@@ -873,6 +881,21 @@ video {
 }
 
 .bg-\[\#F4F1EA\]{
+  --tw-bg-opacity: 1;
+  background-color: rgb(244 241 234 / var(--tw-bg-opacity));
+}
+
+.bg-brown-1{
+  --tw-bg-opacity: 1;
+  background-color: rgb(70 63 58 / var(--tw-bg-opacity));
+}
+
+.bg-brown-2{
+  --tw-bg-opacity: 1;
+  background-color: rgb(159 159 146 / var(--tw-bg-opacity));
+}
+
+.bg-brown-3{
   --tw-bg-opacity: 1;
   background-color: rgb(244 241 234 / var(--tw-bg-opacity));
 }
@@ -1027,19 +1050,34 @@ video {
   color: rgb(138 129 124 / var(--tw-text-opacity));
 }
 
-.text-\[\#E0AFA0\]{
-  --tw-text-opacity: 1;
-  color: rgb(224 175 160 / var(--tw-text-opacity));
-}
-
 .text-black{
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity));
 }
 
+.text-brown-1{
+  --tw-text-opacity: 1;
+  color: rgb(70 63 58 / var(--tw-text-opacity));
+}
+
+.text-brown-2{
+  --tw-text-opacity: 1;
+  color: rgb(159 159 146 / var(--tw-text-opacity));
+}
+
+.text-peach{
+  --tw-text-opacity: 1;
+  color: rgb(224 175 160 / var(--tw-text-opacity));
+}
+
 .text-white{
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.text-gray-500{
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity));
 }
 
 .underline{
@@ -1098,6 +1136,16 @@ video {
   background-color: rgb(159 159 146 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-brown-1:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(70 63 58 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-brown-2:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(159 159 146 / var(--tw-bg-opacity));
+}
+
 .hover\:bg-gray-200:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
@@ -1108,9 +1156,14 @@ video {
   color: rgb(46 43 41 / var(--tw-text-opacity));
 }
 
-.hover\:text-\[\#8A817C\]:hover{
+.hover\:text-brown-1:hover{
   --tw-text-opacity: 1;
-  color: rgb(138 129 124 / var(--tw-text-opacity));
+  color: rgb(70 63 58 / var(--tw-text-opacity));
+}
+
+.hover\:text-brown-2:hover{
+  --tw-text-opacity: 1;
+  color: rgb(159 159 146 / var(--tw-text-opacity));
 }
 
 .active\:bg-gray-300:active{
