@@ -12,11 +12,11 @@
 </a>
 
 <!-- left content -->
-<div class="fixed top-0 left-0 lg-custom:h-screen h-[45%] lg-custom:w-96 w-full z-10 flex flex-col bg-transparent justify-center items-center">
+<div class="fixed top-0 left-0 lg-custom:h-screen h-[45%] lg-custom:w-[28rem] w-full z-10 flex flex-col bg-transparent justify-center items-center">
     <!-- Book hover container -->
-    <div class="flex flex-col justify-center items-center lg-custom:w-64 tall:mt-12 x-tall:mt-16 mt-8">
+    <div class="flex flex-col justify-center items-center lg-custom:w-72 tall:mt-12 x-tall:mt-16 mt-8">
         <div class="flex-none relative group cursor-pointer transition-all duration-500 ease-out hover:-translate-y-2">
-            <img src="<%= book.cover_url %>" alt="Book Cover" class="rounded-lg book-cover lg-custom:w-52 x-tall:w-40 tall:w-36 w-32 transition-all duration-500 ease-out group-hover:brightness-[0.5] group-hover:blur-md group-hover:saturate-50" loading="lazy">
+            <img src="<%= book.cover_url %>" alt="Book Cover" class="rounded-lg book-cover lg-custom:w-60 x-tall:w-40 tall:w-36 w-32 transition-all duration-500 ease-out group-hover:brightness-[0.5] group-hover:blur-md group-hover:saturate-50" loading="lazy">
             
             <!-- Dark overlay for better text visibility -->
             <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-25 transition-all duration-500 ease-out rounded-lg"></div>
@@ -32,16 +32,16 @@
         </div>
         
         <!-- book name -->
-        <h2 class="lg-custom:text-xl x-tall:text-xl tall:text-lg text-base font-bold text-white mt-3 text-center text-shadow"><%= book.title %></h2>
+        <h2 class="lg-custom:text-2xl x-tall:text-xl tall:text-lg text-base font-bold text-white mt-3 text-center text-shadow"><%= book.title %></h2>
 
         <!-- author -->
-        <p class="lg-custom:text-base x-tall:text-base tall:text-base text-sm text-white text-center text-shadow"><%= book.author %></p>
+        <p class="lg-custom:text-lg x-tall:text-base tall:text-base text-sm text-white text-center text-shadow"><%= book.author %></p>
     </div>
     </div>
 </div>
 
 <!-- right content white container -->
-<div class="fixed lg-custom:top-0 top-[50%] right-0 lg-custom:h-screen h-[50%] lg-custom:w-[calc(100%-24rem)] w-full z-20 bg-white rounded-tl-3xl lg-custom:rounded-l-3xl overflow-y-auto lg-custom:p-10 p-8">
+<div class="fixed lg-custom:top-0 top-[50%] right-0 lg-custom:h-screen h-[50%] lg-custom:w-[calc(100%-28rem)] w-full z-20 bg-white rounded-tl-3xl lg-custom:rounded-l-3xl overflow-y-auto lg-custom:p-10 p-8">
     <!-- all content -->
     <div class="max-w-4xl mx-auto flex flex-col">
         <!-- book identity -->
