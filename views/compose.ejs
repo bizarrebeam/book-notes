@@ -2,7 +2,7 @@
 
 <!-- back button -->
 <a href="/" class="absolute top-7 left-7 bg-brown-3 rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:bg-gray-200 active:bg-gray-300 transition cursor-pointer z-30">
-    <i class="fa fa-arrow-left text-xl text-black"></i>
+    <i class="fa fa-arrow-left text-xl text-brown-1"></i>
 </a>
 
 <!-- Form starts here -->
@@ -11,8 +11,8 @@
     
     <!-- Book Title and Author Name Labels Row -->
     <div class="flex flex-col sm:flex-row justify-between mt-8">
-        <label for="title" class="flex-1 text-black text-base ml-3">book title</label>
-        <label for="author" class="flex-1 text-black text-base ml-3">author name</label>
+        <label for="title" class="flex-1 text-brown-1 text-base ml-3">book title</label>
+        <label for="author" class="flex-1 text-brown-1 text-base ml-3">author name</label>
     </div>
     
     <!-- Book Title and Author Name Inputs Row -->
@@ -23,9 +23,9 @@
     
     <!-- Book ISBN, Language, and Finished At Labels Row -->
     <div class="flex flex-col sm:flex-row justify-between mt-8">
-        <label for="isbn" class="flex-1 text-black text-base ml-3">book ISBN</label>
-        <label for="language" class="flex-1 text-black text-base ml-3">book language</label>
-        <label for="finished-at" class="flex-1 text-black text-base ml-3">finished at</label>
+        <label for="isbn" class="flex-1 text-brown-1 text-base ml-3">book ISBN</label>
+        <label for="language" class="flex-1 text-brown-1 text-base ml-3">book language</label>
+        <label for="finished-at" class="flex-1 text-brown-1 text-base ml-3">finished at</label>
     </div>
     
     <!-- Book ISBN, Language, and Finished At Inputs Row -->
@@ -37,7 +37,7 @@
     
     <!-- Summarize It Label -->
     <div class="flex justify-between mt-4">
-        <label for="summarize" class="flex-1 text-black text-base ml-3">summarize it</label>
+        <label for="summarize" class="flex-1 text-brown-1 text-base ml-3">summarize it</label>
     </div>
     
     <!-- Summarize It Textarea -->
@@ -48,9 +48,9 @@
     <!-- Highlight inputs -->
     <div class="flex flex-col mt-6 w-full" id="highlight-container">
         <!-- highlights label -->
-        <label for="highlight-0" class="text-black text-base ml-3">highlight 1</label>
+        <label for="highlight-0" class="text-brown-1 text-base ml-3">highlight 1</label>
         <!-- highlights input -->
-        <input type="text" id="highlight-0" name="highlights[]" class="w-full bg-brown-3 rounded-2xl p-2 text-black outline-none mt-2">
+        <input type="text" id="highlight-0" name="highlights[]" class="w-full bg-brown-3 rounded-2xl p-2 text-brown-1 outline-none mt-2">
     </div>
     
     <!-- Add Highlight Button -->
@@ -72,13 +72,13 @@
         const highlightContainer = document.getElementById('highlight-container');
         const newLabel = document.createElement('label');
         newLabel.textContent = `Highlight ${highlightCount + 1}`;
-        newLabel.classList.add('text-black', 'text-base', 'ml-3', 'mt-4');
+        newLabel.classList.add('text-brown-1', 'text-base', 'ml-3', 'mt-4');
 
         const newInput = document.createElement('input');
         newInput.type = 'text';
         newInput.name = 'highlights[]';
         newInput.id = `highlight-${highlightCount}`;
-        newInput.classList.add('w-full', 'bg-brown-3', 'rounded-2xl', 'p-2', 'text-black', 'outline-none', 'mt-2');
+        newInput.classList.add('w-full', 'bg-brown-3', 'rounded-2xl', 'p-2', 'text-brown-1', 'outline-none', 'mt-2');
 
         highlightContainer.appendChild(newLabel);
         highlightContainer.appendChild(newInput);

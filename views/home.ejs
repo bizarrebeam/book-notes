@@ -41,10 +41,10 @@
 
               <!-- content section -->
               <div class="ml-4 flex-grow">
-                <h2 class="sm:text-2xl text-base font-bold text-black"><%= book.title %></h2>
+                <h2 class="sm:text-2xl text-base font-bold text-brown-1"><%= book.title %></h2>
                 <p class="sm:text-lg text-sm font-bold text-brown-2"><%= book.author %></p>
                 <p class="sm:text-base text-xxxs text-brown-2 text-right sm:mt-1 mt-3">finished at <%= book.finished_month_year %></p>
-                <div class="mt-1 sm:mt-0 text-black sm:text-base text-xxs">
+                <div class="mt-1 sm:mt-0 text-brown-1 sm:text-base text-xxs">
                   <p class="sm:line-clamp-4 line-clamp-5 text-justify"><%= book.summary_text %></p>
                   <a href="/review/<%= book.book_id %>" class="text-peach hover:text-brown-2">...peek more</a>
                 </div>

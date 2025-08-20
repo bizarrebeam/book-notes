@@ -6,66 +6,67 @@
 </div>
 
 <!-- back button -->
-<a href="/" class="absolute top-7 left-7 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:bg-gray-200 active:bg-gray-300 transition cursor-pointer z-30">
-    <i class="fa fa-arrow-left text-xl text-black"></i>
+<a href="/" class="absolute top-7 left-7 bg-white rounded-full lg-custom:w-10 lg-custom:h-10 w-8 h-8 flex items-center justify-center shadow-lg hover:bg-gray-200 active:bg-gray-300 transition cursor-pointer z-30">
+    <i class="fa fa-arrow-left lg-custom:text-xl text-lg text-brown-1"></i>
 </a>
 
 <!-- left content -->
-<div class="fixed top-0 left-0 sm:h-screen h-2/5 sm:w-96 w-full z-10 flex flex-col bg-transparent justify-center items-center">
-    <div class="flex flex-col flex-grow justify-center sm:ju items-center sm:w-64">
+<div class="fixed top-0 left-0 lg-custom:h-screen h-[45%] lg-custom:w-96 w-full z-10 flex flex-col bg-transparent justify-center items-center">
+    <div class="flex flex-col justify-center items-center lg-custom:w-64 tall:mt-12 x-tall:mt-16 mt-8">
         <div class="flex-none">
-            <img src="<%= book.cover_url %>" alt="Book Cover" class="rounded-lg book-cover sm:w-52 w-32 mt-3" loading="lazy">
+            <img src="<%= book.cover_url %>" alt="Book Cover" class="rounded-lg book-cover lg-custom:w-52 x-tall:w-40 tall:w-36 w-32" loading="lazy">
         </div>
         
         <!-- book name -->
-        <h2 class="sm:text-xl text-base font-bold text-white mt-3 text-center text-shadow"><%= book.title %></h2>
+        <h2 class="lg-custom:text-xl x-tall:text-xl tall:text-lg text-base font-bold text-white mt-3 text-center text-shadow"><%= book.title %></h2>
 
         <!-- author -->
-        <p class="sm:text-base text-sm text-white text-center text-shadow"><%= book.author %></p>
+        <p class="lg-custom:text-base x-tall:text-base tall:text-base text-sm text-white text-center text-shadow"><%= book.author %></p>
     </div>
 </div>
 
 <!-- right content white container -->
-<div class="fixed sm:top-0 bottom-0 right-0 sm:h-screen h-3/5 sm:w-[calc(100%-24rem)] w-full z-20 bg-white rounded-tl-3xl sm:rounded-l-3xl overflow-y-auto sm:p-10 p-8">
+<div class="fixed lg-custom:top-0 top-[50%] right-0 lg-custom:h-screen h-[50%] lg-custom:w-[calc(100%-24rem)] w-full z-20 bg-white rounded-tl-3xl lg-custom:rounded-l-3xl overflow-y-auto lg-custom:p-10 p-8">
     <!-- all content -->
     <div class="max-w-4xl mx-auto flex flex-col">
         <!-- book identity -->
-        <div class="max-w-4xl flex justify-end">
-            <div class="flex flex-row justify-end w-52 sm:mt-4 mt-1">
-                <!-- label identity -->
-                <div class="flex-1 sm:text-sm text-xxs text-gray-500 justify-end">
-                    <p class="mb-1">ISBN</p>
-                    <p class="mb-1">Language</p>
-                    <p class="mb-1">Finished at</p>
-                </div>
-                <!-- value identity -->
-                <div class="flex-1 sm:text-sm text-xxs font-bold justify-end">
-                    <p class="mb-1"><%= book.isbn %></p>
-                    <p class="mb-1"><%= book.language %></p>
-                    <p class="mb-1"><%= book.finished_month_year %></p>
-                </div>
+        <div class="flex flex-row gap-4 lg-custom:mt-7 mt-3">
+            <!-- ISBN -->
+            <div class="bg-brown-3 rounded-2xl p-3 flex flex-col">
+                <span class="text-brown-2 lg-custom:text-base text-xs font-medium">ISBN</span>
+                <span class="text-brown-1 lg-custom:text-base text-xs font-bold"><%= book.isbn %></span>
+            </div>
+            <!-- Language -->
+            <div class="bg-brown-3 rounded-2xl p-3 flex flex-col">
+                <span class="text-brown-2 lg-custom:text-base text-xs font-medium">Language</span>
+                <span class="text-brown-1 lg-custom:text-base text-xs font-bold"><%= book.language %></span>
+            </div>
+            <!-- Finished at -->
+            <div class="bg-brown-3 rounded-2xl p-3 flex flex-col">
+                <span class="text-brown-2 lg-custom:text-base text-xs font-medium">Finished at</span>
+                <span class="text-brown-1 lg-custom:text-base text-xs font-bold"><%= book.finished_month_year %></span>
             </div>
         </div>
 
         <!-- review section -->
         <div>
-            <h1 class="font-bold sm:text-4xl text-3xl mt-6">how i would summarize it</h1>
-            <p class="text-justify mt-2 sm:text-base text-xs"><%= book.summary_text %></p>
+            <h1 class="font-bold text-brown-2 lg-custom:text-4xl text-3xl mt-7">How Adel would Summarize It</h1>
+            <p class="text-justify mt-2 lg-custom:text-base text-xs"><%= book.summary_text %></p>
 
             <!-- link to openlibrary -->
             <div class="flex flex-row justify-end mt-4">
-                <a href="https://openlibrary.org/isbn/<%= book.isbn %>" class="flex items-center justify-center bg-brown-1 hover:bg-brown-2 text-white font-bold sm:py-2 sm:px-4 px-2 h-7 sm:h-10 sm:text-base text-xs rounded-full transition duration-150 leading-none">more on openlibrary</a>
+                <a href="https://openlibrary.org/isbn/<%= book.isbn %>" class="flex items-center justify-center bg-brown-1 hover:bg-brown-2 text-white font-bold lg-custom:py-2 lg-custom:px-4 px-2 h-7 lg-custom:h-10 lg-custom:text-base text-xs rounded-full transition duration-150 leading-none">more on openlibrary</a>
             </div>
         </div>
 
         <!-- highlight card section -->
         <div class="mt-7">
-            <h1 class="font-bold sm:text-4xl text-3xl">highlights</h1>
+            <h1 class="font-bold text-brown-2 lg-custom:text-4xl text-3xl">Highlights</h1>
             <div class="mt-5">
                 <% book.highlight_text.forEach(highlight => { %>
                     <div class="bg-brown-3 rounded-2xl pt-2 p-6 w-full mb-5">
-                        <img src="/assets/quote.png" alt="quote-image" class="sm:w-14 w-10" loading="lazy">
-                        <p class="text-justify sm:text-base text-xs"><%= highlight %></p>
+                        <img src="/assets/quote.png" alt="quote-image" class="lg-custom:w-14 w-10" loading="lazy">
+                        <p class="text-justify lg-custom:text-base text-xs"><%= highlight %></p>
                     </div>
                 <% }) %>
             </div>
