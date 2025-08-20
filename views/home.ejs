@@ -3,7 +3,7 @@
 <div class="relative w-full min-h-screen flex flex-col">
   <img src="/assets/background.jpg" class="absolute inset-0 w-full object-cover" alt="Background Image" loading="lazy">
 
-  <div class="relative bg-white rounded-t-[50px] w-full flex-1" style="top: 100px;">
+  <div class="relative bg-white sm:rounded-t-[50px] rounded-t-[30px] w-full flex-1" style="top: 100px;">
 
     <!-- all web content -->
     <div class="pt-20 p-8 md:mt-[-20px] md:pt-20 md:p-16 lg:mt-[-40px] lg:pt-28 lg:p-24 xl:mt-[-60px] xl:pt-36 xl:p-32">
@@ -11,50 +11,65 @@
       <!-- starting content -->
       <div class="pb-5">
         <h1 class="font-bold sm:text-4xl text-2xl text-brown-1 pb-2">
-          <a href="/about" class="hover:text-brown-2 transition ease-in-out">bizarrebeam</a>'s corner
+          <span class="text-brown-1">Bizarrebeam</span>'s Corner
         </h1>
 
-        <p class="text-justify sm:text-base text-xs">
-          a tiny corner of my reading journal. would you want to read it too? i give my own summaries, highlight parts from the book, and link them to <a href="https://openlibrary.org/" class="font-bold text-brown-2 hover:text-brown-1 underline">openlibrary</a> if you want to read more descriptions of the book. this page will continuously update as i read more. flip it, let's go!
+        <p class="text-justify sm:text-base text-xs sm:leading-relaxed leading-tight">
+          A tiny corner of my reading journal. Would you want to read it too? I give my own summaries, highlight parts from the book, and link them to <a href="https://openlibrary.org/" target="_blank" rel="noopener noreferrer" class="font-bold text-brown-2 hover:text-brown-1 underline">OpenLibrary</a> if you want to read more descriptions of the book. This page will continuously update as I read more. Flip it, let's go!
         </p>
       </div>
 
       <!-- sorting buttons -->
-      <div>
+      <div class="mb-8">
         <p class="font-bold text-brown-1 pb-1 sm:text-base text-sm">sort by</p>
         <div class="flex">
-          <button id="title" class="bg-brown-2 text-white font-bold sm:py-2 sm:px-4 px-2 h-7 sm:h-10 sm:text-base text-xs rounded-full hover:bg-brown-1 transition ease-in-out mr-3" onclick="sortBooks('title')">title</button>
-          <button id="recently-read" class="bg-brown-2 text-white font-bold sm:py-2 sm:px-4 px-2 h-7 sm:h-10 sm:text-base text-xs rounded-full hover:bg-brown-1 transition ease-in-out" onclick="sortBooks('recently-read')">recently read</button>
+          <button id="title" class="bg-brown-2 text-white font-bold sm:py-2 sm:px-4 px-2 h-7 sm:h-10 sm:text-base text-xs rounded-full hover:bg-brown-1 hover:scale-105 active:scale-95 transition-all duration-150 ease-in-out mr-3" onclick="sortBooks('title')">
+            title
+          </button>
+          <button id="recently-read" class="bg-brown-2 text-white font-bold sm:py-2 sm:px-4 px-2 h-7 sm:h-10 sm:text-base text-xs rounded-full hover:bg-brown-1 hover:scale-105 active:scale-95 transition-all duration-150 ease-in-out" onclick="sortBooks('recently-read')">
+            recently read
+          </button>
         </div>
       </div>
 
-      <!-- books card -->
-      <div class="mt-5">
+      <!-- books card grid -->
+      <div class="grid grid-cols-1 custom-1330:grid-cols-2 gap-6">
         <% books.forEach(book => { %>
-          <div class="bg-brown-3 rounded-2xl sm:p-5 p-3 w-full mb-5">
-            <div class="flex">
-
-              <!-- book cover -->
-              <div class="flex-none">
-                <img src="<%= book.cover_url %>" alt="book cover" class="sm:w-32 w-24 h-auto rounded-lg" loading="lazy">
-              </div>
-
+          <div class="book-card-container relative mt-8">
+            <!-- book cover - positioned to pop out only from top -->
+            <div class="book-cover-pop absolute left-4 top-0 z-10 transform sm:-translate-y-10 -translate-y-6">
+              <img src="<%= book.cover_url %>" alt="book cover" class="sm:w-44 w-28 sm:rounded-2xl rounded-xl shadow-lg book-cover-height" loading="lazy">
+            </div>
+            
+            <!-- main card content -->
+            <div class="bg-brown-3 sm:rounded-2xl rounded-xl sm:p-5 p-3 flex">
+              <!-- spacer for book cover -->
+              <div class="flex-none sm:w-44 w-28 mr-4"></div>
+              
               <!-- content section -->
-              <div class="ml-4 flex-grow">
-                <h2 class="sm:text-2xl text-base font-bold text-brown-1"><%= book.title %></h2>
-                <p class="sm:text-lg text-sm font-bold text-brown-2"><%= book.author %></p>
-                <p class="sm:text-base text-xxxs text-brown-2 text-right sm:mt-1 mt-3">finished at <%= book.finished_month_year %></p>
-                <div class="mt-1 sm:mt-0 text-brown-1 sm:text-base text-xxs">
-                  <p class="sm:line-clamp-4 line-clamp-5 text-justify"><%= book.summary_text %></p>
-                  <a href="/review/<%= book.book_id %>" class="text-peach hover:text-brown-2">...peek more</a>
+              <div class="flex-grow book-content-height flex flex-col justify-between">
+                <div>
+                  <h2 class="sm:text-2xl text-base font-bold text-brown-1 sm:leading-relaxed leading-tight"><%= book.title %></h2>
+                  <p class="sm:text-lg text-sm font-bold text-brown-2 sm:leading-relaxed leading-tight"><%= book.author %></p>
+                  <p class="sm:text-base text-xxxs text-brown-2 text-right sm:mt-1 mt-2 sm:leading-relaxed leading-tight">Finished at <%= book.finished_month_year %></p>
+                  
+                  <!-- summary with 2-line limit -->
+                  <div class="sm:mt-0 mt-1 text-brown-1 sm:text-base text-xxs">
+                    <p class="line-clamp-2 text-justify sm:leading-relaxed leading-tight"><%= book.summary_text %></p>
+                    <a href="/review/<%= book.book_id %>" class="text-peach hover:text-brown-2">...peek more</a>
+                  </div>
+                </div>
+
+                <!-- buttons -->
+                <div class="flex flex-grow-0 justify-end space-x-2 sm:space-x-4 sm:mt-4 mt-2 items-center">
+                  <a href="https://openlibrary.org/isbn/<%= book.isbn %>" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center bg-brown-2 hover:bg-brown-1 hover:scale-105 active:scale-95 text-white font-bold sm:py-2 sm:px-4 py-0.5 px-2 h-6 sm:h-10 sm:text-base text-xxxs sm:rounded-full rounded-full transition-all duration-150 ease-in-out leading-none whitespace-nowrap">
+                    OpenLibrary
+                  </a>
+                  <a href="/review/<%= book.book_id %>" class="flex items-center justify-center bg-brown-1 hover:bg-brown-2 hover:scale-105 active:scale-95 text-white font-bold sm:py-2 sm:px-4 py-0.5 px-2 h-6 sm:h-10 sm:text-base text-xxxs sm:rounded-full rounded-full transition-all duration-150 ease-in-out leading-none whitespace-nowrap">
+                    Read my notes
+                  </a>
                 </div>
               </div>
-
-            </div>
-
-            <div class="flex flex-grow-0 justify-end space-x-4 mt-4 items-center">
-              <a href="https://openlibrary.org/isbn/<%= book.isbn %>" class="flex items-center justify-center bg-brown-2 hover:bg-brown-1 text-white font-bold sm:py-2 sm:px-4 px-2 h-7 sm:h-10 sm:text-base text-xs rounded-full transition duration-150 leading-none">openlibrary</a>
-              <a href="/review/<%= book.book_id %>" class="flex items-center justify-center bg-brown-1 hover:bg-brown-2 text-white font-bold sm:py-2 sm:px-4 px-2 h-7 sm:h-10 sm:text-base text-xs rounded-full transition duration-150 leading-none">read my notes</a>
             </div>
           </div>
         <% }) %>
@@ -65,11 +80,158 @@
   </div>
 </div>
 
+<style>
+/* custom breakpoint for 1330px */
+@media (min-width: 1330px) {
+  .custom-1330\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* book card hover effects */
+.book-card-container:hover .book-cover-pop {
+  transform: translateY(-14px);
+  transition: transform 0.3s ease;
+}
+
+.book-cover-pop {
+  transition: transform 0.3s ease;
+}
+
+/* responsive hover effects */
+@media (max-width: 639px) {
+  .book-card-container:hover .book-cover-pop {
+    transform: translateY(-10px);
+  }
+}
+
+/* make book cover same height as content */
+.book-cover-height {
+  height: auto;
+}
+
+.book-content-height {
+  min-height: 200px;
+}
+
+/* ensure proper line clamping */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* responsive adjustments */
+@media (max-width: 639px) {
+  .book-content-height {
+    min-height: 140px;
+  }
+}
+
+/* button ripple effects */
+.openlibrary-btn, .read-notes-btn, .sort-btn {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.openlibrary-btn:hover, .read-notes-btn:hover, .sort-btn:hover {
+  transform: scale(1.02);
+}
+
+.openlibrary-btn:active, .read-notes-btn:active, .sort-btn:active {
+  transform: scale(0.98);
+}
+
+/* ripple animations */
+.ripple-openlibrary, .ripple-notes, .ripple-sort {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(0);
+  animation: ripple-animation 0.6s linear;
+  pointer-events: none;
+}
+
+@keyframes ripple-animation {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+</style>
+
 <script>
   function sortBooks(criteria) {
     // redirect to the same page with the sort parameter
     window.location.href = `/?sort=${criteria}`;
   }
+
+  // ripple effect for buttons
+  document.addEventListener('DOMContentLoaded', function() {
+    // OpenLibrary buttons
+    const openLibraryButtons = document.querySelectorAll('.openlibrary-btn');
+    openLibraryButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        const ripple = this.querySelector('.ripple-openlibrary');
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+        
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        ripple.classList.add('animate');
+        
+        setTimeout(() => {
+          ripple.classList.remove('animate');
+        }, 600);
+      });
+    });
+
+    // Read notes buttons
+    const readNotesButtons = document.querySelectorAll('.read-notes-btn');
+    readNotesButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        const ripple = this.querySelector('.ripple-notes');
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+        
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        ripple.classList.add('animate');
+        
+        setTimeout(() => {
+          ripple.classList.remove('animate');
+        }, 600);
+      });
+    });
+
+    // Sort buttons
+    const sortButtons = document.querySelectorAll('.sort-btn');
+    sortButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        const ripple = this.querySelector('.ripple-sort');
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+        
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        ripple.classList.add('animate');
+        
+        setTimeout(() => {
+          ripple.classList.remove('animate');
+        }, 600);
+      });
+    });
+  });
 </script>
 
 </body>
