@@ -12,9 +12,22 @@
 
 <!-- left content -->
 <div class="fixed top-0 left-0 lg-custom:h-screen h-[45%] lg-custom:w-96 w-full z-10 flex flex-col bg-transparent justify-center items-center">
+    <!-- Book hover container -->
     <div class="flex flex-col justify-center items-center lg-custom:w-64 tall:mt-12 x-tall:mt-16 mt-8">
-        <div class="flex-none">
-            <img src="<%= book.cover_url %>" alt="Book Cover" class="rounded-lg book-cover lg-custom:w-52 x-tall:w-40 tall:w-36 w-32" loading="lazy">
+        <div class="flex-none relative group cursor-pointer transition-all duration-500 ease-out hover:-translate-y-2">
+            <img src="<%= book.cover_url %>" alt="Book Cover" class="rounded-lg book-cover lg-custom:w-52 x-tall:w-40 tall:w-36 w-32 transition-all duration-500 ease-out group-hover:brightness-[0.5] group-hover:blur-md group-hover:saturate-50" loading="lazy">
+            
+            <!-- Dark overlay for better text visibility -->
+            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-25 transition-all duration-500 ease-out rounded-lg"></div>
+            
+            <!-- Overlay link - appears on hover -->
+            <a href="https://openlibrary.org/isbn/<%= book.isbn %>" 
+               class="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out transform translate-y-4 group-hover:translate-y-0 z-20">
+                <span class="text-white font-medium lg-custom:text-base text-base underline decoration-2 underline-offset-4 mb-2 text-center leading-tight filter-none">
+                    More on OpenLibrary
+                </span>
+                <i class="fa fa-external-link-alt text-white lg-custom:text-lg text-base filter-none"></i>
+            </a>
         </div>
         
         <!-- book name -->
@@ -22,6 +35,7 @@
 
         <!-- author -->
         <p class="lg-custom:text-base x-tall:text-base tall:text-base text-sm text-white text-center text-shadow"><%= book.author %></p>
+    </div>
     </div>
 </div>
 
@@ -73,5 +87,34 @@
         </div>
     </div>
 </div>
+
+<style>
+/* transitions */
+.book-hover-container:hover {
+    filter: drop-shadow(0 8px 25px rgba(0, 0, 0, 0.25));
+}
+.book-hover-container * {
+    transition: all 0.5s ease-out;
+}
+
+/* link shadow */
+.book-hover-container a span,
+.book-hover-container a i {
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.8);
+    filter: none !important;
+}
+
+/* link text stays sharp */
+.book-hover-container a {
+    z-index: 30;
+    backdrop-filter: none;
+}
+
+/* text elements sharp */
+.book-hover-container a * {
+    filter: none !important;
+    backdrop-filter: none !important;
+}
+</style>
 
 </body>
