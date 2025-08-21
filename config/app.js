@@ -15,10 +15,7 @@ export function configureApp() {
 
   // view engine
   app.set('view engine', 'ejs');
-  const viewsPath = path.join(process.cwd(), 'views');
-  console.log('Views path set to:', viewsPath);
-  console.log('Current working directory:', process.cwd());
-  app.set('views', viewsPath);
+  app.set('views', path.join(process.cwd(), 'views'));
 
   // middleware
   app.use(bodyParser.urlencoded({ extended: true }));

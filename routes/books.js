@@ -32,9 +32,10 @@ router.post("/compose", requireAdmin, async (req, res) => {
     const reviewData = { summary_text: summarize, highlight_text: highlights };
 
     // create book and review
-    await createBook(bookData, reviewData);
+    const bookId = await createBook(bookData, reviewData);
 
-    res.redirect("/");
+    // redirect to the newly created book's review page
+    res.redirect(`/review/${bookId}`);
   } catch (err) {
     console.error("trouble saving to the database", err);
     res.status(500).send("internal server error");
@@ -81,7 +82,8 @@ router.post("/admin/update/:book_id", requireAdmin, async (req, res) => {
     // update book and review
     await updateBook(bookId, bookData, reviewData);
 
-    res.redirect("/");
+    // redirect to the updated book's review page
+    res.redirect(`/review/${bookId}`);
   } catch (err) {
     console.error("error updating book:", err);
     res.status(500).send("internal server error");

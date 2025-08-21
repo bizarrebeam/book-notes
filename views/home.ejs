@@ -217,6 +217,31 @@
       });
     }
   }
+
+  // scroll position memory
+  window.addEventListener('DOMContentLoaded', function() {
+    // restore scroll position if returning from another page
+    const savedScrollPosition = sessionStorage.getItem('homeScrollPosition');
+    if (savedScrollPosition) {
+      window.scrollTo(0, parseInt(savedScrollPosition));
+      // clear the saved position after restoring
+      sessionStorage.removeItem('homeScrollPosition');
+    }
+  });
+
+  // save scroll position before navigating away
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('a');
+    if (link && link.href && !link.href.includes('#')) {
+      // only save scroll position for actual navigation (not anchor links)
+      sessionStorage.setItem('homeScrollPosition', window.scrollY);
+    }
+  });
+
+  // also save scroll position when using browser back/forward buttons
+  window.addEventListener('beforeunload', function() {
+    sessionStorage.setItem('homeScrollPosition', window.scrollY);
+  });
 </script>
 
 </body>
