@@ -44,9 +44,9 @@ export async function processBookCover(isbn) {
     let optimizedBuffer;
     try {
       optimizedBuffer = await sharp(response.data)
-        .resize(300, 400, { 
-          fit: 'cover',
-          position: 'center'
+        .resize(300, null, { 
+          fit: 'inside',
+          withoutEnlargement: true
         })
         .jpeg({ 
           quality: 60,
