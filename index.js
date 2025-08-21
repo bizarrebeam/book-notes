@@ -1,11 +1,12 @@
 import express from "express";
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 import axios from "axios";
 import path from 'path';
 import { db } from './config/database.js';
 import databaseMiddleware from './middleware/database.js';
+import { requireAdmin, checkAdminCredentials, generateToken, verifyToken } from './middleware/admin.js';
 import { serveStaticCSS, serveStaticAssets, projectRoot } from './utils/static.js';
-import fs from 'fs';
 import sharp from "sharp";
 
 const app = express();
@@ -17,6 +18,18 @@ app.set('views', path.join(projectRoot, 'views'));
 
 // use middleware 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+// check for admin token and set isAdmin in all requests
+app.use((req, res, next) => {
+  const token = req.cookies?.adminToken;
+  if (token) {
+    const decoded = verifyToken(token);
+    req.isAdmin = decoded && decoded.isAdmin;
+  } else {
+    req.isAdmin = false;
+  }
+  next();
+});
 app.use(express.static("public", {
   maxAge: '1d',
   etag: true
@@ -61,7 +74,7 @@ app.get("/", async (req, res) => {
   try {
     const sortBy = req.query.sort;
     const books = await getBooks(sortBy);
-    res.render("home.ejs", { books: books });
+    res.render("home.ejs", { books: books, isAdmin: req.isAdmin });
   } catch (err) {
     console.error("error fetching data for home page", err);
     res.send(`
@@ -90,7 +103,7 @@ app.get("/review/:book_id", async (req, res) => {
 
     if (bookResult.rows.length > 0) {
       const book = bookResult.rows[0];
-      res.render("review.ejs", { book: book });
+      res.render("review.ejs", { book: book, isAdmin: req.isAdmin });
     } else {
       res.status(404).send("book not found");
     }
@@ -114,7 +127,7 @@ app.get("/about", (req, res) => {
  * (have to manually navigate to /compose)
  * @route GET /compose
  */
-app.get("/compose", (req, res) => {
+app.get("/compose", requireAdmin, (req, res) => {
   res.render("compose.ejs");
 });
 
@@ -186,6 +199,52 @@ app.post("/compose", async (req, res) => {
     console.error("trouble saving to the database", err);
     res.status(500).send("internal server error");
   }
+});
+
+// admin routes
+
+/**
+ * admin login page
+ * @route GET /admin/login
+ */
+app.get("/admin/login", (req, res) => {
+  res.render("admin/login.ejs");
+});
+
+/**
+ * handle admin login
+ * @route POST /admin/login
+ */
+app.post("/admin/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    
+    const isValid = await checkAdminCredentials(username, password);
+    
+    if (isValid) {
+      const token = generateToken(username);
+      res.cookie('adminToken', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+      });
+      res.redirect('/');
+    } else {
+      res.render("admin/login.ejs", { error: "invalid credentials" });
+    }
+  } catch (err) {
+    console.error("login error:", err);
+    res.render("admin/login.ejs", { error: "login failed" });
+  }
+});
+
+/**
+ * admin logout
+ * @route POST /admin/logout
+ */
+app.post("/admin/logout", (req, res) => {
+  res.clearCookie('adminToken');
+  res.redirect('/');
 });
 
 app.listen(port, () => {

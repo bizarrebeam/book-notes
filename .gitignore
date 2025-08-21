@@ -134,3 +134,6 @@ dist
 migrate-images.js
 *-migration.js
 migrate-*.js
+
+# hashed pass
+generate-hash.js
