@@ -31,7 +31,7 @@
                 </p>
             </div>
             
-            <form action="<% if (typeof editMode !== 'undefined' && editMode) { %>/admin/update/<%= book.book_id %><% } else { %>/compose<% } %>" method="POST" class="space-y-8">
+            <form action="<% if (typeof editMode !== 'undefined' && editMode) { %>/admin/update/<%= book.book_id %><% } else { %>/compose<% } %>" method="POST" enctype="multipart/form-data" class="space-y-8">
 
                 <!-- Book Title and Author Name Row -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -106,6 +106,39 @@
                             class="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base bg-white border-2 border-brown-2 rounded-xl text-brown-1 placeholder-brown-2 focus:outline-none focus:ring-0 focus:border-brown-1 transition duration-200 hover:border-brown-1"
                             placeholder="e.g., June 2024"
                         >
+                    </div>
+                </div>
+
+                <!-- Manual Cover Upload Section (Optional) -->
+                <div class="bg-brown-3 rounded-2xl p-6 border border-brown-2">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-xs sm:text-sm font-medium text-brown-1">Manual cover upload</h3>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="use-manual-cover" class="mr-2 text-brown-1 border-brown-2 rounded focus:ring-brown-1">
+                            <label for="use-manual-cover" class="text-xs sm:text-sm text-brown-1">Use manual upload</label>
+                        </div>
+                    </div>
+                    
+                    <div id="manual-upload-section" class="hidden">
+                        <label for="cover-image" class="block text-xs sm:text-sm font-medium text-brown-1 mb-2">
+                            Book cover image
+                        </label>
+                        <input 
+                            type="file" 
+                            id="cover-image" 
+                            name="cover_image" 
+                            accept="image/*"
+                            class="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base bg-white border-2 border-brown-2 rounded-xl text-brown-1 focus:outline-none focus:ring-0 focus:border-brown-1 transition duration-200 hover:border-brown-1"
+                        >
+                        <p class="text-xs text-brown-2 mt-2">JPG, PNG, WebP. Size: 300-600px width</p>
+                        
+                        <!-- Preview area -->
+                        <div id="image-preview" class="mt-4 hidden">
+                            <label class="block text-xs sm:text-sm font-medium text-brown-1 mb-2">Preview:</label>
+                            <img id="preview-img" src="" alt="Cover preview" class="w-32 h-auto rounded-lg border border-brown-2">
+                        </div>
                     </div>
                 </div>
 
@@ -254,6 +287,38 @@
         });
         highlightCount = highlightItems.length;
     }
+
+    // Manual cover upload functionality
+    document.getElementById('use-manual-cover').addEventListener('change', function() {
+        const uploadSection = document.getElementById('manual-upload-section');
+        const imagePreview = document.getElementById('image-preview');
+        
+        if (this.checked) {
+            uploadSection.classList.remove('hidden');
+        } else {
+            uploadSection.classList.add('hidden');
+            imagePreview.classList.add('hidden');
+            document.getElementById('cover-image').value = '';
+        }
+    });
+
+    // Image preview functionality
+    document.getElementById('cover-image').addEventListener('change', function() {
+        const file = this.files[0];
+        const preview = document.getElementById('preview-img');
+        const previewContainer = document.getElementById('image-preview');
+        
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                previewContainer.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        } else {
+            previewContainer.classList.add('hidden');
+        }
+    });
 </script>
 
 </body>

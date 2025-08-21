@@ -1,7 +1,23 @@
 import express from 'express';
+import multer from 'multer';
 import { requireAdmin } from '../middleware/admin.js';
 import { getBookById, createBook, updateBook, deleteBook } from '../services/bookService.js';
-import { processBookCover } from '../services/imageService.js';
+import { processBookCover, processUploadedImage } from '../services/imageService.js';
+
+// Configure multer for memory storage
+const upload = multer({ 
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024 // 5MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only images dawg'), false);
+    }
+  }
+});
 
 const router = express.Router();
 
@@ -20,13 +36,21 @@ router.get("/compose", requireAdmin, (req, res) => {
  * handle form submission from the compose page and save to database
  * @route POST /compose
  */
-router.post("/compose", requireAdmin, async (req, res) => {
+router.post("/compose", requireAdmin, upload.single('cover_image'), async (req, res) => {
   try {
     const { title, author, isbn, language, finished_at, summarize, highlights } = req.body;
 
-    // download and optimize image
-    console.log(`Creating new book with ISBN ${isbn}, fetching cover image`);
-    const coverUrl = await processBookCover(isbn);
+    let coverUrl;
+    
+    // Check if manual cover was uploaded
+    if (req.file) {
+      console.log(`creating new book with manual cover upload: ${req.file.originalname} (${req.file.size} bytes)`);
+      coverUrl = await processUploadedImage(req.file.buffer);
+    } else {
+      // Use OpenLibrary as fallback
+      console.log(`creating new book with ISBN ${isbn}, fetching cover image from OpenLibrary`);
+      coverUrl = await processBookCover(isbn);
+    }
 
     // prepare data
     const bookData = { title, author, isbn, language, finished_at, cover_url: coverUrl };
@@ -71,7 +95,7 @@ router.get("/admin/edit/:book_id", requireAdmin, async (req, res) => {
  * update book route
  * @route POST /admin/update/:book_id
  */
-router.post("/admin/update/:book_id", requireAdmin, async (req, res) => {
+router.post("/admin/update/:book_id", requireAdmin, upload.single('cover_image'), async (req, res) => {
   const bookId = req.params.book_id;
   const { title, author, isbn, language, finished_at, summarize, highlights } = req.body;
 
@@ -81,8 +105,13 @@ router.post("/admin/update/:book_id", requireAdmin, async (req, res) => {
     
     let coverUrl = currentBook.cover_url; // keep existing cover by default
     
+    // Check if manual cover was uploaded (highest priority)
+    if (req.file) {
+      console.log(`updating book with manual cover upload: ${req.file.originalname} (${req.file.size} bytes)`);
+      coverUrl = await processUploadedImage(req.file.buffer);
+    }
     // if ISBN changed, fetch new cover image
-    if (currentBook && currentBook.isbn !== isbn) {
+    else if (currentBook && currentBook.isbn !== isbn) {
       console.log(`ISBN changed from ${currentBook.isbn} to ${isbn}, fetching new cover`);
       coverUrl = await processBookCover(isbn);
     }

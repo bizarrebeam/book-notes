@@ -78,3 +78,39 @@ export async function processBookCover(isbn) {
     return "/assets/default.png";
   }
 }
+
+/**
+ * process uploaded image file to base64
+ * @param {Buffer} fileBuffer - uploaded file buffer
+ * @returns {Promise<string>} - base64 image data url
+ */
+export async function processUploadedImage(fileBuffer) {
+  try {
+    console.log(`processing uploaded image: ${fileBuffer.length} bytes`);
+    
+    // validate and optimize image with sharp
+    const optimizedBuffer = await sharp(fileBuffer)
+      .resize(300, null, { 
+        fit: 'inside',
+        withoutEnlargement: true
+      })
+      .jpeg({ 
+        quality: 60,
+        progressive: true
+      })
+      .toBuffer();
+      
+    console.log(`successfully processed uploaded image: optimized to ${optimizedBuffer.length} bytes`);
+    
+    // convert to base64
+    const base64Image = optimizedBuffer.toString('base64');
+    const dataUrl = `data:image/jpeg;base64,${base64Image}`;
+    
+    console.log(`successfully created base64 image from upload: ${base64Image.length} chars`);
+    return dataUrl;
+    
+  } catch (err) {
+    console.error('failed to process uploaded image:', err.message);
+    throw new Error('failed to process uploaded image');
+  }
+}
