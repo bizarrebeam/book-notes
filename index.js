@@ -123,12 +123,13 @@ app.get("/about", (req, res) => {
 
 /**
  * compose route: show the compose page
- * yet to implement authentication, so nothing on the webpage linked to this route
- * (have to manually navigate to /compose)
  * @route GET /compose
  */
 app.get("/compose", requireAdmin, (req, res) => {
-  res.render("compose.ejs");
+  res.render("compose.ejs", { 
+    editMode: false, 
+    book: null 
+  });
 });
 
 /**
@@ -246,6 +247,95 @@ app.post("/admin/logout", (req, res) => {
   res.clearCookie('adminToken');
   res.redirect('/');
 });
+
+// admin CRUD routes
+
+/**
+ * delete book route
+ * @route POST /admin/delete/:book_id
+ */
+app.post("/admin/delete/:book_id", requireAdmin, async (req, res) => {
+  const bookId = req.params.book_id;
+  
+  try {
+    // delete review first (foreign key constraint)
+    await db.query('DELETE FROM book_reviews WHERE book_id = $1', [bookId]);
+    
+    // then delete book
+    await db.query('DELETE FROM books WHERE book_id = $1', [bookId]);
+    
+    res.status(200).json({ success: true });
+  } catch (err) {
+    console.error("error deleting book:", err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+/**
+ * edit book route - redirect to compose with data
+ * @route GET /admin/edit/:book_id
+ */
+app.get("/admin/edit/:book_id", requireAdmin, async (req, res) => {
+  const bookId = req.params.book_id;
+  
+  try {
+    const bookQuery = `
+      SELECT books.book_id, books.title, books.author, books.isbn, books.language, 
+             books.finished_month_year, books.cover_url, 
+             book_reviews.summary_text, book_reviews.highlight_text
+      FROM books
+      JOIN book_reviews ON books.book_id = book_reviews.book_id
+      WHERE books.book_id = $1;
+    `;
+    const bookResult = await db.query(bookQuery, [bookId]);
+
+    if (bookResult.rows.length > 0) {
+      const book = bookResult.rows[0];
+      res.render("compose.ejs", { 
+        editMode: true, 
+        book: book 
+      });
+    } else {
+      res.status(404).send("book not found");
+    }
+  } catch (err) {
+    console.error("error fetching book for edit:", err);
+    res.status(500).send("internal server error");
+  }
+});
+
+/**
+ * update book route
+ * @route POST /admin/update/:book_id
+ */
+app.post("/admin/update/:book_id", requireAdmin, async (req, res) => {
+  const bookId = req.params.book_id;
+  const { title, author, isbn, language, finished_at, summarize, highlights } = req.body;
+
+  try {
+    // update book table
+    const bookQuery = `
+      UPDATE books 
+      SET title = $1, author = $2, isbn = $3, language = $4, finished_month_year = $5
+      WHERE book_id = $6;
+    `;
+    await db.query(bookQuery, [title, author, isbn, language, finished_at, bookId]);
+
+    // update review table
+    const reviewQuery = `
+      UPDATE book_reviews 
+      SET summary_text = $1, highlight_text = $2
+      WHERE book_id = $3;
+    `;
+    await db.query(reviewQuery, [summarize, highlights, bookId]);
+
+    res.redirect("/");
+  } catch (err) {
+    console.error("error updating book:", err);
+    res.status(500).send("internal server error");
+  }
+});
+
 
 app.listen(port, () => {
   console.log(`server running on port ${port}`);

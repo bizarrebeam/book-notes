@@ -185,6 +185,7 @@
 </style>
 
 <script>
+  
   function sortBooks(criteria) {
     // redirect to the same page with the sort parameter
     window.location.href = `/?sort=${criteria}`;
@@ -216,6 +217,12 @@
       });
     }
   }
+  
+  <% if (typeof book !== 'undefined' && book && book.highlight_text) { %>
+        let highlightCount = <%= book.highlight_text.length %>;
+    <% } else { %>
+        let highlightCount = 1;
+    <% } %>
 </script>
 
 </body>

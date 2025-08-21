@@ -5,13 +5,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>bizarrebeam's corner</title>
+    
+    <!-- Critical CSS first -->
+    <link rel="stylesheet" href="/styles/output.css">
+    
+    <!-- Preload font for immediate loading -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&display=swap"></noscript>
+    
+    <!-- DNS prefetch -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- Font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/styles/output.css">
 
     <style>
+        /* Immediate font fallback to prevent FOUC */
+        html, body {
+            font-family: 'Lexend', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            letter-spacing: -0.04em;
+            font-weight: 500;
+        }
+        
         .background-blur{
             filter: blur(20px);
             background: rgba(0, 0, 0, 0.8);
@@ -23,13 +39,9 @@
         }
 
         .text-shadow {
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); /* Closer and darker text shadow */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
         }
-
     </style>
 </head>
 
 <body class="font-lexend tracking-tight-custom">
-
-    
-    
