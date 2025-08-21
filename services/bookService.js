@@ -88,16 +88,16 @@ export async function createBook(bookData, reviewData) {
  * @param {Object} reviewData - review information
  */
 export async function updateBook(bookId, bookData, reviewData) {
-  const { title, author, isbn, language, finished_at } = bookData;
+  const { title, author, isbn, language, finished_at, cover_url } = bookData;
   const { summary_text, highlight_text } = reviewData;
 
   // update book table
   const bookQuery = `
     UPDATE books 
-    SET title = $1, author = $2, isbn = $3, language = $4, finished_month_year = $5
-    WHERE book_id = $6;
+    SET title = $1, author = $2, isbn = $3, language = $4, finished_month_year = $5, cover_url = $6
+    WHERE book_id = $7;
   `;
-  await db.query(bookQuery, [title, author, isbn, language, finished_at, bookId]);
+  await db.query(bookQuery, [title, author, isbn, language, finished_at, cover_url, bookId]);
 
   // update review table
   const reviewQuery = `

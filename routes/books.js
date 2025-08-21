@@ -25,6 +25,7 @@ router.post("/compose", requireAdmin, async (req, res) => {
     const { title, author, isbn, language, finished_at, summarize, highlights } = req.body;
 
     // download and optimize image
+    console.log(`Creating new book with ISBN ${isbn}, fetching cover image`);
     const coverUrl = await processBookCover(isbn);
 
     // prepare data
@@ -75,8 +76,25 @@ router.post("/admin/update/:book_id", requireAdmin, async (req, res) => {
   const { title, author, isbn, language, finished_at, summarize, highlights } = req.body;
 
   try {
+    // get the current book to check if ISBN changed
+    const currentBook = await getBookById(bookId);
+    
+    let coverUrl = currentBook.cover_url; // keep existing cover by default
+    
+    // if ISBN changed, fetch new cover image
+    if (currentBook && currentBook.isbn !== isbn) {
+      console.log(`ISBN changed from ${currentBook.isbn} to ${isbn}, fetching new cover`);
+      coverUrl = await processBookCover(isbn);
+    }
+    
+    // if i requested to refetch cover 
+    if (req.body.refetch_cover === 'true') {
+      console.log(`Manual refetch requested for ISBN ${isbn}`);
+      coverUrl = await processBookCover(isbn);
+    }
+
     // prepare data
-    const bookData = { title, author, isbn, language, finished_at };
+    const bookData = { title, author, isbn, language, finished_at, cover_url: coverUrl };
     const reviewData = { summary_text: summarize, highlight_text: highlights };
 
     // update book and review
