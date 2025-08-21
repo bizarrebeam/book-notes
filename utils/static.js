@@ -8,12 +8,12 @@ const __dirname = path.dirname(__filename);
 const projectRoot = path.dirname(__dirname);
 
 const serveStaticCSS = (req, res) => {
-  res.sendFile(path.join(projectRoot, 'public', 'styles', 'output.css'));
+  res.sendFile(path.join(__dirname, '../public/styles/output.css'));
 };
 
 const serveStaticAssets = (req, res) => {
   const filename = req.params.filename;
-  const filepath = path.join(projectRoot, 'public', 'assets', filename);
+  const filepath = path.join(__dirname, '../public/assets', filename);
   res.sendFile(filepath);
 };
 

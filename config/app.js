@@ -2,9 +2,14 @@ import express from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import path from 'path';
+import { fileURLToPath } from 'url';
 import databaseMiddleware from '../middleware/database.js';
 import { checkAdminStatus } from '../middleware/auth.js';
-import { serveStaticCSS, serveStaticAssets, projectRoot } from '../utils/static.js';
+import { serveStaticCSS, serveStaticAssets } from '../utils/static.js';
+
+// get current file path and directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /**
  * configure express app with middleware and settings
@@ -15,7 +20,7 @@ export function configureApp() {
 
   // view engine
   app.set('view engine', 'ejs');
-  app.set('views', path.join(projectRoot, 'views'));
+  app.set('views', path.join(__dirname, '../views'));
 
   // middleware
   app.use(bodyParser.urlencoded({ extended: true }));
