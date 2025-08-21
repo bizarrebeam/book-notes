@@ -6,26 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>bizarrebeam's corner</title>
     
-    <!-- Critical CSS first -->
-    <link rel="stylesheet" href="/styles/output.css">
-    
-    <!-- Preload font for immediate loading -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&display=swap"></noscript>
-    
-    <!-- DNS prefetch -->
+    <!-- DNS prefetch first -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- Font awesome -->
+    <!-- load font immediately -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&display=block">
+    
+    <!-- critical CSS after font -->
+    <link rel="stylesheet" href="/styles/output.css">
+    
+    <!-- font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
-        /* Immediate font fallback to prevent FOUC */
+        /* immediate font fallback */
         html, body {
-            font-family: 'Lexend', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Lexend', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
             letter-spacing: -0.04em;
             font-weight: 500;
+        }
+        
+        /* hide body until font is loaded */
+        body {
+            visibility: hidden;
+        }
+        
+        /* show body once font is loaded */
+        .fonts-loaded body,
+        body.fonts-loaded {
+            visibility: visible;
         }
         
         .background-blur{
@@ -42,6 +52,36 @@
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
         }
     </style>
+    
+    <script>
+        // font loading detection
+        (function() {
+            // fallback timer
+            const fallbackTimer = setTimeout(function() {
+                document.body.classList.add('fonts-loaded');
+            }, 100);
+            
+            // check if font is loaded
+            function checkFont() {
+                if (document.fonts && document.fonts.ready) {
+                    document.fonts.ready.then(function() {
+                        clearTimeout(fallbackTimer);
+                        document.body.classList.add('fonts-loaded');
+                    });
+                } else {
+                    // Fallback for older browsers
+                    clearTimeout(fallbackTimer);
+                    document.body.classList.add('fonts-loaded');
+                }
+            }
+            
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', checkFont);
+            } else {
+                checkFont();
+            }
+        })();
+    </script>
 </head>
 
 <body class="font-lexend tracking-tight-custom">
